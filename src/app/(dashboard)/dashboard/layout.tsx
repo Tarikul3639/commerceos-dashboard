@@ -1,27 +1,23 @@
 "use client"
 
-import { useGetCurrentUserQuery } from "@/features/auth/auth.api"
+import { useAuth } from "@/hooks/use-auth"
+import { PageLoader } from "@/components/shared/page-loader"
+import { AppShell } from "@/components/layout/app-shell"
 
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
-    const { data: user, isLoading, isError } = useGetCurrentUserQuery()
+    const { user, isLoading, isAuthenticated } = useAuth()
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <PageLoader />
     }
 
-    if (isError || !user) {
+    if (!isAuthenticated || !user) {
         return null
     }
 
-    return (
-        <div>
-            {/* Sidebar */}
-            {/* Header */}
-            {children}
-        </div>
-    )
+    return <AppShell>{children}</AppShell>
 }
