@@ -11,6 +11,13 @@ import { logout } from "@/store/slices/auth.slice"
 
 const mutex = new Mutex()
 
+const PUBLIC_AUTH_ENDPOINTS = [
+    "/auth/user/login",
+    "/auth/user/register",
+    "/auth/user/forgot-password",
+    "/auth/user/reset-password",
+]
+
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
     credentials: "include",
@@ -24,8 +31,12 @@ const baseQueryWithReauth: BaseQueryFn<
     await mutex.waitForUnlock()
 
     let result = await baseQuery(args, api, extraOptions)
+    const url = typeof args === "string" ? args : args.url
+    const isPublicAuthEndpoint = PUBLIC_AUTH_ENDPOINTS.some(
+        (endpoint) => url.startsWith(endpoint)
+    )
 
-    if (result.error?.status === 401) {
+    if (result.error?.status === 401 && !isPublicAuthEndpoint) {
         if (!mutex.isLocked()) {
             const release = await mutex.acquire()
 

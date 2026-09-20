@@ -19,7 +19,7 @@ export function AppShell({ children }: AppShellProps) {
                 <div className="flex min-h-svh w-full flex-col">
                     <AppHeader />
 
-                    <main className="flex-1">{children}</main>
+                    <main className="flex-1 p-2 sm:p-3 md:p-4">{children}</main>
                 </div>
             </SidebarProvider>
         </TooltipProvider>

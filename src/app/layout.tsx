@@ -1,9 +1,42 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
 import { StoreProvider } from '@/store/providers';
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "CommerceOS",
+  description: "A modern e-commerce platform built with Next.js and Prisma.",
+  keywords: ["Next.js", "Prisma", "E-commerce", "CommerceOS"],
+  authors: [{ name: "Your Name", url: "https://yourwebsite.com" }],
+  creator: "Your Name",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://yourwebsite.com",
+    title: "CommerceOS",
+    description: "A modern e-commerce platform built with Next.js and Prisma.",
+    siteName: "CommerceOS",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CommerceOS",
+    description: "A modern e-commerce platform built with Next.js and Prisma.",
+    images: ["https://yourwebsite.com/og-image.png"],
+    creator: "@yourtwitterhandle",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
+}
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
