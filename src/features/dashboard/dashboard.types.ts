@@ -52,26 +52,6 @@ export interface EmployeeSummary {
     newEmployees: number
 }
 
-export interface TopProduct {
-    productId: string
-    productName: string
-    productImage?: string | null
-    variantId?: string
-    sku?: string
-    totalSold: number
-    totalRevenue: string
-}
-
-export interface TopCustomer {
-    customerId: string
-    customerName: string
-    customerImage?: string | null
-    email?: string
-    phone?: string
-    totalOrders: number
-    totalSpent: string
-}
-
 export interface LowStockProduct {
     variantId: string
     sku: string
@@ -101,6 +81,22 @@ export interface RecentActivity {
     createdAt: string
 }
 
+export interface RecentOrderCustomer {
+    id: string
+    name: string
+    image?: string | null
+}
+
+export interface RecentOrder {
+    id: string
+    orderNumber: string
+    customer: RecentOrderCustomer
+    total: string
+    status: string
+    paymentStatus?: string
+    createdAt: string
+}
+
 export interface DashboardOverview {
     sales: SalesSummary
     purchases: PurchaseSummary
@@ -108,8 +104,7 @@ export interface DashboardOverview {
     orders: OrderSummary
     customers: CustomerSummary
     employees: EmployeeSummary
-    topProducts: TopProduct[]
-    topCustomers: TopCustomer[]
     lowStockProducts: LowStockProduct[]
     recentActivities: RecentActivity[]
+    recentOrders: RecentOrder[]
 }

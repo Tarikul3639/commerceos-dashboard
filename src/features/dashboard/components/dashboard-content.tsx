@@ -9,6 +9,8 @@ import { DashboardHeader } from "./dashboard-header"
 import { DashboardOrderStatus } from "./dashboard-order-status"
 import { DashboardStockOverview } from "./dashboard-stock-overview"
 import { DashboardStats } from "./dashboard-stats"
+import { DashboardSalesSummary } from "./dashboard-sales-summary"
+import { DashboardRecentOrders } from "./dashboard-recent-orders"
 
 export function DashboardContent() {
     // State to manage the current dashboard query (filters)
@@ -35,8 +37,11 @@ export function DashboardContent() {
             {/* Dashboard Stats */}
             <DashboardStats data={overview} isLoading={loading} isError={isError} />
 
+            {/* Sales summary */}
+            <DashboardSalesSummary sales={overview?.sales} isLoading={loading} />
+
             {/* Order & Inventory */}
-            <div className="min-w-0 grid gap-4 lg:grid-cols-2">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
                 {/* Order status */}
                 <DashboardOrderStatus
                     orders={overview?.orders}
@@ -48,7 +53,11 @@ export function DashboardContent() {
                 <DashboardStockOverview stock={overview?.stock} isLoading={loading} />
             </div>
 
-            {/* Revenue overview */}
+            {/* Recent orders */}
+            <DashboardRecentOrders
+                orders={overview?.recentOrders}
+                isLoading={loading}
+            />
 
             {/* Top products */}
 

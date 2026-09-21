@@ -9,9 +9,8 @@ import type {
     PurchaseSummary,
     SalesSummary,
     StockSummary,
-    TopCustomer,
-    TopProduct,
     RecentActivity,
+    RecentOrder,
     DashboardQuery,
 } from "./dashboard.types"
 
@@ -76,22 +75,6 @@ export const dashboardApi = baseApi.injectEndpoints({
             providesTags: ["Dashboard"],
         }),
 
-        getTopProducts: builder.query<TopProduct[], DashboardQuery | void>({
-            query: (params) => ({
-                url: "/dashboard/top-products",
-                params: params ?? undefined,
-            }),
-            providesTags: ["Dashboard"],
-        }),
-
-        getTopCustomers: builder.query<TopCustomer[], DashboardQuery | void>({
-            query: (params) => ({
-                url: "/dashboard/top-customers",
-                params: params ?? undefined,
-            }),
-            providesTags: ["Dashboard"],
-        }),
-
         getLowStockProducts: builder.query<
             LowStockProduct[],
             DashboardQuery | void
@@ -112,6 +95,16 @@ export const dashboardApi = baseApi.injectEndpoints({
                 providesTags: ["Dashboard"],
             }
         ),
+
+        getRecentOrders: builder.query<RecentOrder[], { limit?: number } | void>(
+            {
+                query: (params) => ({
+                    url: "/dashboard/recent-orders",
+                    params: params ?? undefined,
+                }),
+                providesTags: ["Dashboard"],
+            }
+        ),
     }),
 })
 
@@ -123,8 +116,7 @@ export const {
     useGetOrderSummaryQuery,
     useGetCustomerSummaryQuery,
     useGetEmployeeSummaryQuery,
-    useGetTopProductsQuery,
-    useGetTopCustomersQuery,
     useGetLowStockProductsQuery,
     useGetRecentActivitiesQuery,
+    useGetRecentOrdersQuery,
 } = dashboardApi
