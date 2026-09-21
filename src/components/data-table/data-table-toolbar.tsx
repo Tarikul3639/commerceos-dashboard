@@ -2,10 +2,11 @@ import { type ReactNode } from "react"
 
 import { type ReactTable, type RowData } from "@tanstack/react-table"
 
+import { cn } from "@/lib/utils"
+
 import type { DataTableFeatures } from "./data-table-features"
 import { DataTableColumnVisibility } from "./data-table-column-visibility"
 import { DataTableSearch } from "./data-table-search"
-import { cn } from "@/lib/utils"
 
 interface DataTableToolbarProps<TData extends RowData> {
     /** TanStack Table instance. */
@@ -17,7 +18,7 @@ interface DataTableToolbarProps<TData extends RowData> {
     /** Optional table description. */
     description?: string
 
-    /** Optional search configuration. */
+    /** Search configuration. */
     search?: {
         value: string
         onChange: (value: string) => void
@@ -27,9 +28,6 @@ interface DataTableToolbarProps<TData extends RowData> {
 
     /** Shows or hides the column visibility button. */
     columnVisibility?: boolean
-
-    /** Custom filters displayed after the fixed controls. */
-    filters?: ReactNode
 
     /** Custom actions displayed after the fixed controls. */
     actions?: ReactNode
@@ -45,18 +43,27 @@ export function DataTableToolbar<TData extends RowData>({
     description,
     search,
     columnVisibility = false,
-    filters,
     actions,
     className,
 }: DataTableToolbarProps<TData>) {
     return (
-        <div className={cn("flex flex-col gap-4 border-b bg-card p-4 sm:flex-row sm:items-center sm:justify-between", className)}>
+        <div
+            className={cn(
+                "flex flex-col gap-4 border-b bg-card p-4",
+                "sm:flex-row sm:items-center sm:justify-between",
+                className
+            )}
+        >
             {/* Table information */}
             <div className="min-w-0">
-                <h2 className="text-sm font-semibold text-foreground">{title}</h2>
+                <h2 className="text-sm font-semibold text-foreground">
+                    {title}
+                </h2>
 
                 {description && (
-                    <p className="mt-1 text-xs text-muted-foreground">{description}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                        {description}
+                    </p>
                 )}
             </div>
 
@@ -71,11 +78,11 @@ export function DataTableToolbar<TData extends RowData>({
                         className={search.className}
                     />
                 )}
-                {/* Filters */}
-                {filters}
 
                 {/* Column visibility */}
-                {columnVisibility && <DataTableColumnVisibility table={table} />}
+                {columnVisibility && (
+                    <DataTableColumnVisibility table={table} />
+                )}
 
                 {/* Custom actions */}
                 {actions}

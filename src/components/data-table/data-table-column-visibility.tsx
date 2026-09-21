@@ -32,10 +32,6 @@ export function DataTableColumnVisibility<TData extends RowData>({
     label = "Columns",
     className,
 }: DataTableColumnVisibilityProps<TData>) {
-    const columns = table
-        .getAllLeafColumns()
-        .filter((column) => column.getCanHide())
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -46,30 +42,32 @@ export function DataTableColumnVisibility<TData extends RowData>({
                 </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuContent align="end" className="w-48 p-1">
                 <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
-
-                {columns.map((column) => {
-                    const columnLabel =
-                        typeof column.columnDef.header === "string"
-                            ? column.columnDef.header
-                            : column.id
-
-                    return (
-                        <DropdownMenuCheckboxItem
-                            key={column.id}
-                            checked={column.getIsVisible()}
-                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                            onSelect={(event) => {
-                                event.preventDefault()
-                            }}
-                        >
-                            {columnLabel}
-                        </DropdownMenuCheckboxItem>
-                    )
-                })}
+                {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                        // Find the column header text.
+                        const columnHeader =
+                            typeof column.columnDef.header === "string"
+                                ? column.columnDef.header
+                                : column.id
+                        return (
+                            <DropdownMenuCheckboxItem
+                                key={column.id}
+                                className="capitalize"
+                                checked={column.getIsVisible()}
+                                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                                onSelect={(event) => event.preventDefault()}
+                            >
+                                {columnHeader}
+                            </DropdownMenuCheckboxItem>
+                        )
+                    })}
+                <DropdownMenuSeparator />
             </DropdownMenuContent>
         </DropdownMenu>
     )

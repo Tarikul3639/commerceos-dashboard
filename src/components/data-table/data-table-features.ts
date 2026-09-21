@@ -1,22 +1,39 @@
 import {
     columnFilteringFeature,
     columnVisibilityFeature,
+    createFilteredRowModel,
+    createPaginatedRowModel,
+    createSortedRowModel,
     globalFilteringFeature,
     rowPaginationFeature,
-    createPaginatedRowModel,
     rowSelectionFeature,
     rowSortingFeature,
     tableFeatures,
+
+    sortFn_alphanumeric,
+    sortFn_text,
+    sortFn_datetime,
 } from "@tanstack/react-table"
 
 export const features = tableFeatures({
     columnFilteringFeature,
     columnVisibilityFeature,
+
+    globalFilteringFeature,
+    filteredRowModel: createFilteredRowModel(),
+
     rowPaginationFeature,
     paginatedRowModel: createPaginatedRowModel(),
+
     rowSelectionFeature,
     rowSortingFeature,
-    globalFilteringFeature,
+    sortedRowModel: createSortedRowModel(),
+
+    sortFns: {
+        sortFn_text,
+        sortFn_datetime,
+        sortFn_alphanumeric
+    }
 })
 
 export type DataTableFeatures = typeof features

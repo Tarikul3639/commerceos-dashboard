@@ -6,9 +6,17 @@ import type { PaginationState } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 
 import type { RecentOrder } from "../dashboard.types"
-import { dashboardRecentOrdersColumns } from "./dashboard-recent-orders-columns"
-import { DataTableToolbar, DataTableSearch, DataTableColumnVisibility } from "@/components/data-table"
+import { columns } from "./dashboard-recent-orders-columns"
 
+export function OrderFilters() {
+    return (
+        <div className="flex flex-col gap-2">
+            <Button variant="outline" size="sm">
+                Filter by Status
+            </Button>
+        </div>
+    )
+}
 interface DashboardRecentOrdersProps {
     orders?: RecentOrder[]
     isLoading?: boolean
@@ -24,11 +32,15 @@ export function DashboardRecentOrders({
         pageSize: 10,
     })
 
+    const clearFilters = () => {
+        setSearch("")
+    }
+
     if (isLoading) {
         return <div>Loading...</div>
     }
 
-    const DemoData: RecentOrder[] = [
+    const data: RecentOrder[] = [
         {
             id: "1",
             orderNumber: "ORD-001",
@@ -165,41 +177,18 @@ export function DashboardRecentOrders({
 
     return (
         <DataTable
-            columns={dashboardRecentOrdersColumns}
-            data={DemoData}
+            columns={columns}
+            data={data}
             title="Recent Orders"
-            description="Manage and monitor your recent orders."
+            description="Latest customer orders"
+
             search={{
                 value: search,
                 onChange: setSearch,
                 placeholder: "Search orders...",
             }}
+
             columnVisibility
-            // isFetching={true}
-            // isLoading={true}
-            toolbarClassName="flex flex-col gap-4 border-b bg-card p-4 lg:flex-row sm:items-center sm:justify-between"
-            filters={
-                <div className="flex flex-wrap items-center gap-2">
-                    <Button variant="outline" onClick={() => alert("Filter by status")}>
-                        Filter by Status
-                    </Button>
-
-                    <Button variant="outline" onClick={() => alert("Filter by date range")}>
-                        Filter by Date Range
-                    </Button>
-                </div>
-            }
-            toolbarActions={
-                <>
-                    <Button variant="outline">
-                        Export
-                    </Button>
-
-                    <Button>
-                        Add Order
-                    </Button>
-                </>
-            }
         />
     )
 }

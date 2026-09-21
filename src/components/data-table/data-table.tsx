@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react"
+import { useState } from "react"
 
 import {
   type ColumnDef,
@@ -30,7 +30,7 @@ interface DataTableProps<TData extends RowData> {
   /** Optional table description. */
   description?: string
 
-  /** Optional search configuration. */
+  /** Search configuration. */
   search?: {
     value: string
     onChange: (value: string) => void
@@ -38,14 +38,11 @@ interface DataTableProps<TData extends RowData> {
     className?: string
   }
 
-  /** Custom table filters. */
-  filters?: ReactNode
-
   /** Shows or hides the column visibility button. */
   columnVisibility?: boolean
 
   /** Custom toolbar actions. */
-  toolbarActions?: ReactNode
+  toolbarActions?: React.ReactNode
 
   /** Toolbar className. */
   toolbarClassName?: string
@@ -79,7 +76,6 @@ export function DataTable<TData extends RowData>({
   title = "Data Table",
   description,
   search,
-  filters,
   columnVisibility = false,
   toolbarActions,
   toolbarClassName,
@@ -92,14 +88,18 @@ export function DataTable<TData extends RowData>({
   initialColumnVisibility,
 }: DataTableProps<TData>) {
   // Internal pagination state for uncontrolled tables.
-  const [internalPagination, setInternalPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  })
+  const [internalPagination, setInternalPagination] =
+    useState<PaginationState>({
+      pageIndex: 0,
+      pageSize: 10,
+    })
 
-  // Uses controlled pagination when provided, otherwise falls back to internal state.
+  // Uses controlled pagination when provided,
+  // otherwise falls back to internal state.
   const pagination = controlledPagination ?? internalPagination
-  const onPaginationChange = controlledOnPaginationChange ?? setInternalPagination
+
+  const onPaginationChange =
+    controlledOnPaginationChange ?? setInternalPagination
 
   // Creates the TanStack Table instance.
   const table = useTable({
@@ -109,6 +109,7 @@ export function DataTable<TData extends RowData>({
 
     state: {
       pagination,
+      globalFilter: search?.value,
     },
 
     initialState: {
@@ -116,9 +117,9 @@ export function DataTable<TData extends RowData>({
     },
 
     onPaginationChange,
+    onGlobalFilterChange: search?.onChange,
 
     manualPagination,
-
     rowCount: manualPagination ? totalRows : undefined,
   })
 
@@ -132,9 +133,8 @@ export function DataTable<TData extends RowData>({
         table={table}
         title={title}
         description={description}
-        className={toolbarClassName}
         search={search}
-        filters={filters}
+        className={toolbarClassName}
         columnVisibility={columnVisibility}
         actions={toolbarActions}
       />
@@ -161,7 +161,10 @@ export function DataTable<TData extends RowData>({
           {!isLoading && (
             <TableFooter>
               <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={visibleColumnCount} className="px-4 py-0">
+                <TableCell
+                  colSpan={visibleColumnCount}
+                  className="px-4 py-0"
+                >
                   <DataTablePagination table={table} />
                 </TableCell>
               </TableRow>

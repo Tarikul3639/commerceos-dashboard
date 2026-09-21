@@ -12,10 +12,6 @@ export const metadata: Metadata = {
   keywords: ["Next.js", "Prisma", "E-commerce", "CommerceOS"],
   authors: [{ name: "Your Name", url: "https://yourwebsite.com" }],
   creator: "Your Name",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
   openGraph: {
     type: "website",
     locale: "en_US",

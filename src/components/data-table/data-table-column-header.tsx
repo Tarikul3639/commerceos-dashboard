@@ -1,7 +1,7 @@
-import type { ReactNode } from "react"
+"use client"
 
+import { type ReactNode } from "react"
 import { type Column, type RowData } from "@tanstack/react-table"
-
 import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -19,7 +19,7 @@ interface DataTableColumnHeaderProps<TData extends RowData, TValue> {
     /** Optional custom header content. */
     children?: ReactNode
 
-    /** Additional classes for the header button. */
+    /** Additional classes for the button. */
     className?: string
 }
 
@@ -30,33 +30,22 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
     children,
     className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
-    const canSort = column.getCanSort()
-    const sortDirection = column.getIsSorted()
-
-    if (!canSort) {
-        return (
-            <div className={cn("whitespace-nowrap", className)}>
-                {children ?? title}
-            </div>
-        )
-    }
+    const sorted = column.getIsSorted()
 
     return (
         <Button
-            type="button"
             variant="ghost"
-            size="sm"
             onClick={() => column.toggleSorting()}
-            className={cn("-ml-3 h-8 px-3 whitespace-nowrap", className)}
+            className={cn("-ml-3 h-8 text-xs uppercase", className)}
         >
             {children ?? title}
 
-            {sortDirection === "asc" ? (
-                <ArrowUp className="size-3.5" />
-            ) : sortDirection === "desc" ? (
-                <ArrowDown className="size-3.5" />
+            {sorted === "asc" ? (
+                <ArrowUp className="ml-2 size-4" />
+            ) : sorted === "desc" ? (
+                <ArrowDown className="ml-2 size-4" />
             ) : (
-                <ChevronsUpDown className="size-3.5" />
+                <ChevronsUpDown className="ml-2 size-4" />
             )}
         </Button>
     )
