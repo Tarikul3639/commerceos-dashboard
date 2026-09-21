@@ -1,64 +1,67 @@
 import { createColumnHelper } from "@tanstack/react-table"
+
 import type { RecentOrder } from "../dashboard.types"
-import {
-    DataTableColumnHeader,
-    type DataTableFeatures,
-} from "@/components/data-table"
+import type { DataTableFeatures } from "@/components/data-table"
 
 export const columnHelper = createColumnHelper<DataTableFeatures, RecentOrder>()
 
 export const columns = columnHelper.columns([
-    columnHelper.accessor("id", {
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Order ID" />
-        ),
-        sortFn: "sortFn_alphanumeric",
-        cell: (info) => info.getValue(),
-    }),
-
     columnHelper.accessor("orderNumber", {
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Order Number" />
-        ),
+        header: "Order",
         sortFn: "sortFn_alphanumeric",
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+            const order = info.row.original
+
+            return (
+                <div className="min-w-0">
+                    <p className="truncate font-medium">{order.orderNumber}</p>
+
+                    <p className="truncate text-xs text-muted-foreground">{order.id}</p>
+                </div>
+            )
+        },
     }),
 
     columnHelper.accessor((row) => row.customer.name, {
         id: "customerName",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Customer" />
-        ),
+        header: "Customer",
         sortFn: "sortFn_text",
         cell: (info) => info.getValue(),
     }),
 
     columnHelper.accessor("status", {
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Status" />
-        ),
+        header: "Status",
         sortFn: "sortFn_text",
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+            const order = info.row.original
+
+            return (
+                <div className="min-w-0">
+                    <p className="truncate font-medium">{order.status}</p>
+
+                    <p className="truncate text-xs text-muted-foreground">
+                        {order.paymentStatus || "N/A"}
+                    </p>
+                </div>
+            )
+        },
     }),
 
     columnHelper.accessor("total", {
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Total" />
-        ),
+        header: "Order",
         sortFn: "sortFn_alphanumeric",
-        cell: (info) => info.getValue(),
-    }),
+        cell: (info) => {
+            const order = info.row.original
 
-    columnHelper.accessor("paymentStatus", {
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Payment Status" />
-        ),
-        sortFn: "sortFn_text",
-        cell: (info) => info.getValue() || "N/A",
-    }),
+            return (
+                <div className="text-right">
+                    <p className="font-medium">${order.total}</p>
 
-    columnHelper.accessor("createdAt", {
-        header: "Created At",
-        cell: (info) => new Date(info.getValue()).toLocaleDateString(),
+                    <p className="text-xs text-muted-foreground">
+                        {new Date(order.createdAt).toLocaleDateString()}
+                    </p>
+                </div>
+            )
+        },
     }),
 ])

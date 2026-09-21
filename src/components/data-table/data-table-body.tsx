@@ -1,3 +1,5 @@
+import {type LucideIcon } from "lucide-react"
+
 import {
     type RowData,
     type ReactTable,
@@ -26,6 +28,12 @@ interface DataTableBodyProps<TData extends RowData> {
 
     /** Number of skeleton rows. */
     skeletonRows: number
+
+    /** Empty state message. */
+    emptyText?: string
+
+    /** Empty state icon. */
+    emptyIcon?: LucideIcon
 }
 
 /** Renders the table body. */
@@ -34,6 +42,9 @@ export function DataTableBody<TData extends RowData>({
     isLoading,
     columnCount,
     skeletonRows,
+
+    emptyText,
+    emptyIcon,
 }: DataTableBodyProps<TData>) {
     return (
         <TableBody>
@@ -59,7 +70,11 @@ export function DataTableBody<TData extends RowData>({
                     </TableRow>
                 ))
             ) : (
-                <DataTableEmpty colSpan={columnCount} />
+                <DataTableEmpty
+                    colSpan={columnCount}
+                    emptyText={emptyText}
+                    emptyIcon={emptyIcon}
+                />
             )}
         </TableBody>
     )

@@ -1,0 +1,55 @@
+import type { RecentActivity } from "../dashboard.types"
+import type { DataTableFeatures } from "@/components/data-table"
+import { createColumnHelper } from "@tanstack/react-table"
+
+export const columnHelper = createColumnHelper<DataTableFeatures, RecentActivity>()
+
+export const columns = columnHelper.columns([
+    columnHelper.accessor("description", {
+        header: "Activity",
+        cell: (info) => {
+            const activity = info.row.original
+
+            return (
+                <div className="min-w-0">
+                    <p className="truncate font-medium">
+                        {activity.description || activity.action}
+                    </p>
+
+                    <p className="truncate text-xs text-muted-foreground">
+                        {activity.module} • {activity.type}
+                    </p>
+                </div>
+            )
+        },
+    }),
+
+    columnHelper.accessor("user", {
+        header: "User",
+        cell: (info) => {
+            const user = info.getValue()
+
+            return user ? (
+                <div className="min-w-0">
+                    <p className="truncate font-medium">
+                        {user.name}
+                    </p>
+
+                    <p className="truncate text-xs text-muted-foreground">
+                        {user.email}
+                    </p>
+                </div>
+            ) : (
+                <span className="text-muted-foreground">
+                    System
+                </span>
+            )
+        },
+    }),
+
+    columnHelper.accessor("createdAt", {
+        header: "Date",
+        cell: (info) =>
+            new Date(info.getValue()).toLocaleDateString(),
+    }),
+])

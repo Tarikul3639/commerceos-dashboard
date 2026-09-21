@@ -11,9 +11,11 @@ import { DashboardStockOverview } from "./dashboard-stock-overview"
 import { DashboardStats } from "./dashboard-stats"
 import { DashboardSalesSummary } from "./dashboard-sales-summary"
 import { DashboardRecentOrders } from "./dashboard-recent-orders"
+import { DashboardLowStockProducts } from "./dashboard-low-stock-products"
+import { DashboardRecentActivities } from "./dashboard-recent-activities"
 
 export function DashboardContent() {
-    // State to manage the current dashboard query (filters)
+    // State to manage the current dashboard query
     const [query, setQuery] = useState<DashboardQuery>({
         period: "30d",
     })
@@ -37,35 +39,43 @@ export function DashboardContent() {
             {/* Dashboard Stats */}
             <DashboardStats data={overview} isLoading={loading} isError={isError} />
 
-            {/* Sales summary */}
+            {/* Sales Summary */}
             <DashboardSalesSummary sales={overview?.sales} isLoading={loading} />
 
-            {/* Order & Inventory */}
+            {/* Order & Inventory Overview */}
             <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-                {/* Order status */}
                 <DashboardOrderStatus
                     orders={overview?.orders}
                     query={query}
                     isLoading={loading}
                 />
 
-                {/* Inventory overview */}
                 <DashboardStockOverview stock={overview?.stock} isLoading={loading} />
             </div>
 
-            {/* Recent orders */}
-            <DashboardRecentOrders
-                orders={overview?.recentOrders}
-                isLoading={loading}
-            />
+            {/* Recent Orders & Dashboard Insights */}
+            <div className="grid min-w-0 gap-4 lg:max-h-[600px] lg:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]">
+                {/* Recent Orders */}
+                <DashboardRecentOrders
+                    orders={overview?.recentOrders}
+                    isLoading={loading}
+                />
 
-            {/* Top products */}
+                {/* Low Stock Products */}
+                <DashboardLowStockProducts
+                    products={overview?.lowStockProducts}
+                    isLoading={loading}
+                />
+            </div>
 
-            {/* Top customers */}
-
-            {/* Low stock products */}
-
-            {/* Recent activities */}
+            {/* Dashboard Insights */}
+            <div className="grid min-w-0 gap-4">
+                {/* Recent Activities */}
+                <DashboardRecentActivities
+                    activities={overview?.recentActivities}
+                    isLoading={loading}
+                />
+            </div>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import type { LucideIcon } from "lucide-react"
 
 import {
   type ColumnDef,
@@ -9,7 +10,7 @@ import {
   useTable,
 } from "@tanstack/react-table"
 
-import { Table, TableCell, TableFooter, TableRow } from "@/components/ui/table"
+import { Table } from "@/components/ui/table"
 
 import { features, type DataTableFeatures } from "./data-table-features"
 import { DataTableBody } from "./data-table-body"
@@ -56,6 +57,9 @@ interface DataTableProps<TData extends RowData> {
   /** Enables server-side pagination. */
   manualPagination?: boolean
 
+  /** Shows or hides the pagination. */
+  showPagination?: boolean
+
   /** Total number of rows available on the server. */
   totalRows?: number
 
@@ -67,6 +71,12 @@ interface DataTableProps<TData extends RowData> {
 
   /** Initial column visibility state. */
   initialColumnVisibility?: ColumnVisibilityState
+
+  /** Empty state message. */
+  emptyText?: string
+
+  /** Empty state icon. */
+  emptyIcon?: LucideIcon
 }
 
 /** Generic reusable data table component. */
@@ -79,13 +89,19 @@ export function DataTable<TData extends RowData>({
   columnVisibility = false,
   toolbarActions,
   toolbarClassName,
+
   pagination: controlledPagination,
   onPaginationChange: controlledOnPaginationChange,
+  showPagination = true,
   manualPagination = false,
+
   totalRows,
   isLoading = false,
   isFetching = false,
   initialColumnVisibility,
+
+  emptyText,
+  emptyIcon,
 }: DataTableProps<TData>) {
   // Internal pagination state for uncontrolled tables.
   const [internalPagination, setInternalPagination] =
@@ -127,7 +143,7 @@ export function DataTable<TData extends RowData>({
   const visibleColumnCount = table.getVisibleLeafColumns().length
 
   return (
-    <div className="w-full min-w-0 overflow-hidden rounded-lg border bg-card shadow-sm">
+    <div className="flex h-full min-w-0 flex-col overflow-hidden rounded-lg border bg-card shadow-sm">
       {/* Table Toolbar */}
       <DataTableToolbar
         table={table}
@@ -139,39 +155,32 @@ export function DataTable<TData extends RowData>({
         actions={toolbarActions}
       />
 
-      {/* Data Table */}
-      <div className="w-full min-w-0 overflow-x-auto">
-        <Table className="min-w-max">
-          {/* Table Header */}
+      {/* Table */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-x-auto">
+        <Table className="h-full min-w-max">
           <DataTableHeader
             table={table}
             columnCount={visibleColumnCount}
             isFetching={isFetching && !isLoading}
           />
 
-          {/* Table Body */}
           <DataTableBody
             table={table}
             isLoading={isLoading}
             columnCount={visibleColumnCount}
             skeletonRows={pagination.pageSize}
+            emptyText={emptyText}
+            emptyIcon={emptyIcon}
           />
-
-          {/* Table Footer */}
-          {!isLoading && (
-            <TableFooter>
-              <TableRow className="hover:bg-transparent">
-                <TableCell
-                  colSpan={visibleColumnCount}
-                  className="px-4 py-0"
-                >
-                  <DataTablePagination table={table} />
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          )}
         </Table>
       </div>
+
+      {/* Pagination */}
+      {showPagination && !isLoading && data.length > 0 && (
+        <div className="mt-auto border-t px-2">
+          <DataTablePagination table={table} />
+        </div>
+      )}
     </div>
   )
 }
