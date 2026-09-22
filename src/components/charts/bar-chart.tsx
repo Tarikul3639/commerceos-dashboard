@@ -1,19 +1,12 @@
 "use client"
 
-import {
-    Bar,
-    BarChart as RechartsBarChart,
-    CartesianGrid,
-    ResponsiveContainer,
-    XAxis,
-    YAxis,
-    Cell,
-} from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -26,155 +19,91 @@ import {
 } from "@/components/ui/chart"
 
 import { Skeleton } from "@/components/ui/skeleton"
+import { TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export interface BarChartData {
     name: string
     value: number
-    color?: string
+    fill: string
 }
 
 interface AppBarChartProps {
     data: BarChartData[]
+    config: ChartConfig
     title?: string
     description?: string
-    config?: ChartConfig
-    height?: number
-    showGrid?: boolean
-    showXAxis?: boolean
-    showYAxis?: boolean
-    showTooltip?: boolean
-    barRadius?: number
-    barSize?: number
-    isLoading?: boolean
-    emptyMessage?: string
     className?: string
+    footerTitle?: string
+    footerDescription?: string
+    isLoading?: boolean
 }
 
 export function AppBarChart({
     data,
+    config,
     title,
     description,
-    height = 280,
-    showGrid = true,
-    showXAxis = true,
-    showYAxis = true,
-    showTooltip = true,
-    barRadius = 6,
-    barSize = 40,
-    isLoading = false,
-    emptyMessage = "No data available",
     className,
+    footerTitle = "Total Visitors",
+    footerDescription = "Visitors in the last 30 days",
+    isLoading = false,
 }: AppBarChartProps) {
-    const isEmpty = !data?.length
-
     return (
         <Card className={cn("overflow-hidden", className)}>
             {(title || description) && (
                 <CardHeader>
                     {title && <CardTitle>{title}</CardTitle>}
-
-                    {description && (
-                        <CardDescription>
-                            {description}
-                        </CardDescription>
-                    )}
+                    {description && <CardDescription>{description}</CardDescription>}
                 </CardHeader>
             )}
 
-            <CardContent>
+            <CardContent className="flex flex-1 p-0 ">
                 {isLoading ? (
-                    <BarChartSkeleton height={height} />
-                ) : isEmpty ? (
-                    <div
-                        className="flex items-center justify-center text-sm text-muted-foreground"
-                        style={{ height }}
-                    >
-                        {emptyMessage}
-                    </div>
+                    <Skeleton className="w-full" />
                 ) : (
-                    <ChartContainer
-                        config={{}}
-                        className="w-full"
-                        style={{ height }}
-                    >
-                        <ResponsiveContainer
-                            width="100%"
-                            height="100%"
+                    <ChartContainer config={config} className="w-full h-full">
+                        <BarChart
+                            accessibilityLayer
+                            data={data}
+                            margin={{
+                                top: 10,
+                                right: 10,
+                                left: 0,
+                                bottom: 0,
+                            }}
                         >
-                            <RechartsBarChart
-                                accessibilityLayer
-                                data={data}
-                                margin={{
-                                    top: 8,
-                                    right: 8,
-                                    left: 0,
-                                    bottom: 0,
-                                }}
-                            >
-                                {showGrid && (
-                                    <CartesianGrid vertical={false} />
-                                )}
+                            <CartesianGrid vertical={false} />
 
-                                {showXAxis && (
-                                    <XAxis
-                                        dataKey="name"
-                                        tickLine={false}
-                                        axisLine={false}
-                                        tickMargin={10}
-                                    />
-                                )}
+                            <XAxis
+                                dataKey="name"
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                                tickFormatter={(value) =>
+                                    config[value as keyof typeof config]?.label?.toString() ??
+                                    value
+                                }
+                            />
 
-                                {showYAxis && (
-                                    <YAxis
-                                        tickLine={false}
-                                        axisLine={false}
-                                        tickMargin={8}
-                                        allowDecimals={false}
-                                    />
-                                )}
-
-                                {showTooltip && (
-                                    <ChartTooltip
-                                        cursor={false}
-                                        content={
-                                            <ChartTooltipContent />
-                                        }
-                                    />
-                                )}
-
-                                <Bar
-                                    dataKey="value"
-                                    radius={barRadius}
-                                    barSize={barSize}
-                                >
-                                    {data.map((item) => (
-                                        <Cell
-                                            key={item.name}
-                                            fill={item.color}
-                                        />
-                                    ))}
-                                </Bar>
-                            </RechartsBarChart>
-                        </ResponsiveContainer>
+                            <YAxis type="number" tickLine={false} axisLine={false} />
+                            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                            <Bar dataKey="value" radius={6} />
+                        </BarChart>
                     </ChartContainer>
                 )}
             </CardContent>
-        </Card>
-    )
-}
 
-function BarChartSkeleton({ height }: { height: number }) {
-    return (
-        <div
-            className="flex items-end justify-center gap-4 px-8 pb-6"
-            style={{ height }}
-        >
-            <Skeleton className="h-[35%] w-10 rounded-t-md" />
-            <Skeleton className="h-[65%] w-10 rounded-t-md" />
-            <Skeleton className="h-[45%] w-10 rounded-t-md" />
-            <Skeleton className="h-[80%] w-10 rounded-t-md" />
-            <Skeleton className="h-[55%] w-10 rounded-t-md" />
-        </div>
+            <CardFooter className="flex-col gap-2 text-sm">
+                <div className="flex items-center gap-2 leading-none font-medium">
+                    {footerTitle}
+                    <TrendingUp className="h-4 w-4" />
+                </div>
+
+                <div className="leading-none text-muted-foreground">
+                    {footerDescription}
+                </div>
+            </CardFooter>
+        </Card>
     )
 }

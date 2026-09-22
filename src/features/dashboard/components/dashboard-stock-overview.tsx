@@ -2,87 +2,107 @@
 
 import { Archive, Boxes, CircleDollarSign, Package } from "lucide-react"
 
-import { AppBarChart } from "@/components/charts"
-import { Skeleton } from "@/components/ui/skeleton"
+import { AppPieChart } from "@/components/charts"
+import type { ChartConfig } from "@/components/ui/chart"
+
 import type { StockSummary } from "../dashboard.types"
+import { stockSummary } from "../dashboard.data"
 
 interface DashboardStockOverviewProps {
     stock?: StockSummary
     isLoading?: boolean
 }
 
+const stockStatusConfig = {
+    healthy: {
+        label: "Healthy",
+        color: "var(--chart-1)",
+    },
+    lowStock: {
+        label: "Low Stock",
+        color: "var(--chart-2)",
+    },
+    outOfStock: {
+        label: "Out of Stock",
+        color: "var(--destructive)",
+    },
+} satisfies ChartConfig
+
 export function DashboardStockOverview({
     stock,
     isLoading = false,
 }: DashboardStockOverviewProps) {
-    if (isLoading) {
-        return <StockOverviewSkeleton />
-    }
-
-    if (!stock) {
-        return null
-    }
+    let currentStock =  stockSummary
 
     const healthyCount = Math.max(
-        stock.totalProducts,
-        stock.lowStockCount,
-        stock.outOfStockCount,
+        currentStock.totalProducts -
+        currentStock.lowStockCount -
+        currentStock.outOfStockCount,
         0
     )
 
     const stockStatusData = [
         {
-            name: "Healthy",
+            name: "healthy",
             value: healthyCount,
         },
         {
-            name: "Low Stock",
-            value: stock.lowStockCount,
+            name: "lowStock",
+            value: currentStock.lowStockCount,
         },
         {
-            name: "Out of Stock",
-            value: stock.outOfStockCount,
+            name: "outOfStock",
+            value: currentStock.outOfStockCount,
         },
     ]
 
     return (
         <div className="min-w-0 space-y-4">
-            <AppBarChart
+            <AppPieChart
                 title="Stock Overview"
-                description="Current stock status"
+                description="Current inventory status"
                 data={stockStatusData}
-                height={280}
-                showGrid
-                showXAxis
-                showYAxis
-                showTooltip
-                barRadius={6}
-                barSize={50}
+                config={stockStatusConfig}
+                donut
+                innerRadius="55%"
+                outerRadius="85%"
+                isLoading={isLoading}
+                centerContent={
+                    <div className="space-y-1 text-center">
+                        <p className="text-2xl font-bold">
+                            {currentStock.totalProducts.toLocaleString("en-BD")}
+                        </p>
+
+                        <p className="text-xs text-muted-foreground">Total Products</p>
+                    </div>
+                }
+                footerTitle={`${currentStock.lowStockCount} Low Stock`}
+                footerDescription="Current inventory status"
             />
 
-            <div className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 rounded-xl border bg-card p-4 sm:grid-cols-4">
                 <StockMetric
                     icon={Package}
                     label="Products"
-                    value={stock.totalProducts}
+                    value={currentStock.totalProducts.toLocaleString("en-BD")}
                 />
 
                 <StockMetric
                     icon={Boxes}
                     label="Variants"
-                    value={stock.totalVariants}
+                    value={currentStock.totalVariants.toLocaleString("en-BD")}
                 />
 
                 <StockMetric
                     icon={Archive}
-                    label="Stock Qty"
-                    value={stock.totalStockQuantity}
+                    label="Stock Quantity"
+                    value={currentStock.totalStockQuantity.toLocaleString("en-BD")}
                 />
 
                 <StockMetric
                     icon={CircleDollarSign}
                     label="Stock Value"
-                    value={stock.totalStockValue}
+                    value={`৳${formatAmount(currentStock.totalStockValue)}`}
                 />
             </div>
         </div>
@@ -92,7 +112,7 @@ export function DashboardStockOverview({
 interface StockMetricProps {
     icon: React.ElementType
     label: string
-    value: string | number
+    value: string
 }
 
 function StockMetric({ icon: Icon, label, value }: StockMetricProps) {
@@ -111,34 +131,12 @@ function StockMetric({ icon: Icon, label, value }: StockMetricProps) {
     )
 }
 
-function StockOverviewSkeleton() {
-    return (
-        <div className="space-y-4">
-            <div className="rounded-xl border bg-card p-6">
-                <div className="space-y-2">
-                    <Skeleton className="h-5 w-32" />
-                    <Skeleton className="h-4 w-48" />
-                </div>
+function formatAmount(value: string) {
+    const amount = Number(value)
 
-                <div className="flex h-[280px] items-end justify-center gap-5 px-8 pt-8 pb-6">
-                    <Skeleton className="h-[45%] w-10 rounded-t-md" />
-                    <Skeleton className="h-[75%] w-10 rounded-t-md" />
-                    <Skeleton className="h-[55%] w-10 rounded-t-md" />
-                </div>
-            </div>
+    if (Number.isNaN(amount)) {
+        return value
+    }
 
-            <div className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-4">
-                {Array.from({ length: 4 }).map((_, index) => (
-                    <div key={index} className="flex min-w-0 items-center gap-3">
-                        <Skeleton className="size-9 shrink-0 rounded-md" />
-
-                        <div className="min-w-0 space-y-2">
-                            <Skeleton className="h-3 w-16" />
-                            <Skeleton className="h-4 w-20" />
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
+    return amount.toLocaleString("en-BD")
 }

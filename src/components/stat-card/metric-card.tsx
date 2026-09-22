@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { TakaIcon } from "@/components/icons/taka-icon"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
@@ -6,6 +7,7 @@ import { cn } from "@/lib/utils"
 interface MetricCardProps {
     label: string
     value: ReactNode
+    isAmount?: boolean
     description?: ReactNode
     icon?: ReactNode
     className?: string
@@ -15,33 +17,36 @@ interface MetricCardProps {
 export function MetricCard({
     label,
     value,
+    isAmount = false,
     description,
     icon,
     className,
     valueClassName,
 }: MetricCardProps) {
     return (
-        <Card className={cn("shadow-sm py-0 sm:py-1 md:py-2", className)}>
+        <Card className={cn("py-0 shadow-sm sm:py-1 md:py-2", className)}>
             <CardContent className="p-2 sm:p-3 md:p-4">
                 <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0 space-y-2">
-                        <p className="text-sm font-medium text-muted-foreground">
-                            {label}
-                        </p>
+                        <p className="text-sm font-medium text-muted-foreground">{label}</p>
 
-                        <p
+                        <div
                             className={cn(
-                                "truncate text-2xl font-semibold tracking-tight",
-                                valueClassName,
+                                "flex min-w-0 items-baseline gap-1 text-2xl font-semibold tracking-tight",
+                                valueClassName
                             )}
                         >
-                            {value}
-                        </p>
+                            {isAmount && (
+                                <span className="shrink-0 text-muted-foreground">
+                                    <TakaIcon className="size-4.5" />
+                                </span>
+                            )}
+
+                            <span className="truncate">{value}</span>
+                        </div>
 
                         {description && (
-                            <div className="text-xs text-muted-foreground">
-                                {description}
-                            </div>
+                            <div className="text-xs text-muted-foreground">{description}</div>
                         )}
                     </div>
 

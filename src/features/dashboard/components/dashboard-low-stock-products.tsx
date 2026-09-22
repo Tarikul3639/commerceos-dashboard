@@ -21,25 +21,24 @@ export function DashboardLowStockProducts({
     isLoading = false,
 }: DashboardLowStockProductsProps) {
     return (
-        <div className="h-full max-h-[520px] min-h-0">
-            <DataTable
-                columns={columns}
-                data={lowStockProducts}
-                title="Low Stock Products"
-                description="Products that are low in stock"
-                isLoading={isLoading}
-                // columnVisibility
-                emptyText="No low stock products"
-                emptyIcon={Package}
-                showPagination={false}
-                toolbarActions={
-                    <Button variant="link" size="sm" asChild>
-                        <Link href="/products">
-                            View All <ArrowRight className="size-4" />
-                        </Link>
-                    </Button>
-                }
-            />
-        </div>
+        <DataTable
+            columns={columns}
+            data={lowStockProducts}
+            title="Low Stock Products"
+            description="Products that are low in stock"
+            isLoading={isLoading}
+            // columnVisibility
+            emptyText="No low stock products"
+            emptyIcon={Package}
+            showPagination={false}
+            toolbarActions={
+                <Button variant="link" size="sm" asChild>
+                    <Link href="/products">
+                        View All <ArrowRight className="size-4" />
+                    </Link>
+                </Button>
+            }
+        />
+
     )
 }

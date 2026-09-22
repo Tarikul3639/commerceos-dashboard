@@ -2,7 +2,52 @@ import type {
     RecentActivity,
     RecentOrder,
     LowStockProduct,
+    PurchaseSummary,
+    CustomerSummary,
+    EmployeeSummary,
+    OrderSummary,
+    StockSummary,
 } from "./dashboard.types"
+
+export const stockSummary: StockSummary = {
+    totalProducts: 1250,
+    totalVariants: 3840,
+    totalStockQuantity: 45820,
+    totalStockValue: "8450000",
+    lowStockCount: 42,
+    outOfStockCount: 17,
+}
+
+export const orderSummary: OrderSummary = {
+    totalOrders: 1248,
+    pendingOrders: 42,
+    processingOrders: 35,
+    shippedOrders: 18,
+    deliveredOrders: 1120,
+    cancelledOrders: 33,
+}
+
+export const employeeSummary: EmployeeSummary = {
+    totalEmployees: 45,
+    activeEmployees: 42,
+    newEmployees: 3,
+}
+
+export const customerSummary: CustomerSummary = {
+    totalCustomers: 5420,
+    newCustomers: 125,
+    activeCustomers: 850,
+    returningCustomers: 420,
+    customerGrowth: 8.7,
+}
+
+export const purchaseSummary: PurchaseSummary = {
+    totalPurchases: "850000",
+    todayPurchases: "25000",
+    totalPurchaseOrders: 325,
+    pendingPurchases: 12,
+    purchaseGrowth: 8.4,
+}
 
 export const recentOrders: RecentOrder[] = [
     {
@@ -198,7 +243,35 @@ export const lowStockProducts: LowStockProduct[] = [
         productName: "AirPods Pro 2",
         productImage: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434",
         quantity: 1,
-    },
+    }, {
+        variantId: "variant_007",
+        sku: "NINT-NSWITCH-2026",
+        productId: "product_007",
+        productName: "Nintendo Switch OLED",
+        productImage: "https://images.unsplash.com/photo-1611078480730-1c3e5f8b9f4e",
+        quantity: 2,
+    }, {
+        variantId: "variant_008",
+        sku: "DELL-XPS-13-2026",
+        productId: "product_008",
+        productName: "Dell XPS 13 2026",
+        productImage: "https://images.unsplash.com/photo-1587825140708-1c3e5f8b9f4e",
+        quantity: 3,
+    }, {
+        variantId: "variant_009",
+        sku: "HP-SPECTRE-X360",
+        productId: "product_009",
+        productName: "HP Spectre x360",
+        productImage: null,
+        quantity: 5,
+    }, {
+        variantId: "variant_010",
+        sku: "GOOG-PIXEL-7-PRO",
+        productId: "product_010",
+        productName: "Google Pixel 7 Pro",
+        productImage: "https://images.unsplash.com/photo-1611078480730-1c3e5f8b9f4e",
+        quantity: 2,
+    }
 ]
 
 export const recentActivities: RecentActivity[] = [
@@ -255,4 +328,89 @@ export const recentActivities: RecentActivity[] = [
         },
         createdAt: "2026-09-21T14:18:42.500Z",
     },
+    {
+        id: "activity_004",
+        type: "DELETE",
+        module: "Products",
+        action: "Product Deleted",
+        description: "Deleted product Samsung Galaxy S24",
+        entityType: "Product",
+        entityId: "product_002",
+        userId: "user_004",
+        user: {
+            id: "user_004",
+            name: "Michael Brown",
+            email: "michael@example.com",
+            avatar: "https://i.pravatar.cc/150?img=13",
+        },
+        createdAt: "2026-09-21T14:18:42.500Z",
+    },
+    {
+        id: "activity_005",
+        type: "UPDATE",
+        module: "Inventory",
+        action: "Stock Updated",
+        description: "Updated stock quantity for product MacBook Air M2",
+        entityType: "Product",
+        entityId: "product_003",
+        userId: "user_005",
+        user: {
+            id: "user_005",
+            name: "Emily Davis",
+            email: "emily@example.com",
+            avatar: "https://i.pravatar.cc/150?img=14",
+        },
+        createdAt: "2026-09-21T14:18:42.500Z",
+    },
+    {
+        id: "activity_006",
+        type: "CREATE",
+        module: "Orders",
+        action: "Order Created",
+        description: "Created a new order #ORD-10246 for customer Olivia Johnson",
+        entityType: "Order",
+        entityId: "order_002",
+        userId: "user_006",
+        user: {
+            id: "user_006",
+            name: "Olivia Johnson",
+            email: "olivia@example.com",
+            avatar: "https://i.pravatar.cc/150?img=15",
+        },
+        createdAt: "2026-09-21T14:18:42.500Z",
+    },
+    {
+        id: "activity_007",
+        type: "UPDATE",
+        module: "Customers",
+        action: "Customer Updated",
+        description: "Updated customer Sophia Martinez's contact information",
+        entityType: "Customer",
+        entityId: "customer_002",
+        userId: "user_007",
+        user: {
+            id: "user_007",
+            name: "Sophia Martinez",
+            email: "sophia@example.com",
+            avatar: "https://i.pravatar.cc/150?img=16",
+        },
+        createdAt: "2026-09-21T14:18:42.500Z",
+    },
+    {
+        id: "activity_008",
+        type: "DELETE",
+        module: "Orders",
+        action: "Order Deleted",
+        description: "Deleted order #ORD-10247 for customer Daniel Miller",
+        entityType: "Order",
+        entityId: "order_003",
+        userId: "user_008",
+        user: {
+            id: "user_008",
+            name: "Daniel Miller",
+            email: "daniel@example.com",
+            avatar: "https://i.pravatar.cc/150?img=17",
+        },
+        createdAt: "2026-09-21T14:18:42.500Z",
+    }
 ]

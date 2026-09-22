@@ -72,6 +72,7 @@ interface AppPieChartProps {
     isLoading?: boolean
 
     className?: string
+    chartContainerClassName?: string
 }
 
 export function AppPieChart({
@@ -90,9 +91,10 @@ export function AppPieChart({
     footerDescription,
     isLoading = false,
     className,
+    chartContainerClassName,
 }: AppPieChartProps) {
     return (
-        <Card className={cn("overflow-hidden", className)}>
+        <Card className={cn("overflow-hidden px-0", className)}>
             {(title || description) && (
                 <CardHeader>
                     {title && <CardTitle>{title}</CardTitle>}
@@ -101,16 +103,20 @@ export function AppPieChart({
                 </CardHeader>
             )}
 
-            <CardContent>
+            <CardContent className="flex flex-1 p-0">
                 {isLoading ? (
-                    <div className="flex items-center justify-center" style={{ height }}>
+                    <div
+                        className={cn(
+                            "flex h-full w-full items-center justify-center",
+                            chartContainerClassName
+                        )}
+                    >
                         <Skeleton className="size-52 rounded-full" />
                     </div>
                 ) : (
                     <ChartContainer
                         config={config}
-                        className="mx-auto w-full"
-                        style={{ height }}
+                        className={cn("h-full w-full", chartContainerClassName)}
                     >
                         <ResponsiveContainer width="100%" height="100%">
                             <RechartsPieChart>

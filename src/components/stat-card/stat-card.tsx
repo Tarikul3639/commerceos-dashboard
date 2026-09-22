@@ -6,6 +6,7 @@ import { TrendIndicator } from "./trend-indicator"
 interface StatCardProps {
     title: string
     value: ReactNode
+    isAmount?: boolean
     description?: string
     trend?: number
     trendDirection?: "up" | "down" | "neutral"
@@ -18,6 +19,7 @@ interface StatCardProps {
 export function StatCard({
     title,
     value,
+    isAmount = false,
     description,
     trend,
     trendDirection,
@@ -30,6 +32,7 @@ export function StatCard({
         <MetricCard
             label={title}
             value={value}
+            isAmount={isAmount}
             className={className}
             valueClassName={valueClassName}
             description={

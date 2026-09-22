@@ -20,7 +20,8 @@ export function DashboardStats({
                 <>
                     <StatCard
                         title="Total Sales"
-                        value={`৳${Number(data.sales.totalSales).toLocaleString()}`}
+                        value={`${Number(data.sales.totalSales).toLocaleString()}`}
+                        isAmount
                         trend={data.sales.salesGrowth}
                         icon={<DollarSign className="size-4" />}
                     />
@@ -29,6 +30,7 @@ export function DashboardStats({
                         title="Total Orders"
                         value={data.orders.totalOrders.toLocaleString()}
                         icon={<ShoppingCart className="size-4" />}
+                        description="All orders"
                     />
 
                     <StatCard
@@ -40,13 +42,17 @@ export function DashboardStats({
 
                     <StatCard
                         title="Stock Value"
-                        value={`৳${Number(data.stock.totalStockValue).toLocaleString()}`}
+                        value={`${Number(data.stock.totalStockValue).toLocaleString()}`}
+                        isAmount
                         icon={<Warehouse className="size-4" />}
+                        description="Value of current stock.
+"
                     />
 
                     <StatCard
                         title="Total Purchases"
-                        value={`৳${Number(data.purchases.totalPurchases).toLocaleString()}`}
+                        value={`${Number(data.purchases.totalPurchases).toLocaleString()}`}
+                        isAmount
                         trend={data.purchases.purchaseGrowth}
                         icon={<ShoppingBag className="size-4" />}
                     />
@@ -55,6 +61,7 @@ export function DashboardStats({
                         title="Total Employees"
                         value={data.employees.totalEmployees.toLocaleString()}
                         icon={<UsersRound className="size-4" />}
+                        description="All employees"
                     />
                 </>
             )}

@@ -1,10 +1,11 @@
-"use client";
+"use client"
 
-import { AppPieChart } from "@/components/charts"
+import { AppBarChart } from "@/components/charts"
 import type { ChartConfig } from "@/components/ui/chart"
 
 import type { OrderSummary, DashboardQuery } from "../dashboard.types"
 import { PERIOD_OPTIONS } from "../dashboard.constants"
+import { orderSummary } from "../dashboard.data"
 
 interface DashboardOrderStatusProps {
     orders?: OrderSummary
@@ -13,6 +14,9 @@ interface DashboardOrderStatusProps {
 }
 
 const orderStatusConfig = {
+    value: {
+        label: "Orders",
+    },
     pending: {
         label: "Pending",
         color: "var(--chart-1)",
@@ -31,7 +35,7 @@ const orderStatusConfig = {
     },
     cancelled: {
         label: "Cancelled",
-        color: "var(--chart-5)",
+        color: "var(--destructive)",
     },
 } satisfies ChartConfig
 
@@ -40,56 +44,50 @@ export function DashboardOrderStatus({
     isLoading = false,
     query,
 }: DashboardOrderStatusProps) {
+    const currentOrders = orderSummary
+
     const orderStatusData = [
         {
+            name: "delivered",
+            value: currentOrders.deliveredOrders,
+            fill: "var(--color-delivered)",
+        },
+        {
             name: "pending",
-            value: orders?.pendingOrders ?? 0,
+            value: currentOrders.pendingOrders,
+            fill: "var(--color-pending)",
         },
         {
             name: "processing",
-            value: orders?.processingOrders ?? 0,
+            value: currentOrders.processingOrders,
+            fill: "var(--color-processing)",
         },
         {
             name: "shipped",
-            value: orders?.shippedOrders ?? 0,
-        },
-        {
-            name: "delivered",
-            value: orders?.deliveredOrders ?? 0,
+            value: currentOrders.shippedOrders,
+            fill: "var(--color-shipped)",
         },
         {
             name: "cancelled",
-            value: orders?.cancelledOrders ?? 0,
+            value: currentOrders.cancelledOrders,
+            fill: "var(--color-cancelled)",
         },
     ]
 
     const periodLabel =
-        PERIOD_OPTIONS.find((option) => option.value === query.period)?.label ??
-        "selected period"
+        PERIOD_OPTIONS.find(
+            (option) => option.value === query.period
+        )?.label ?? "selected period"
 
     return (
-        <AppPieChart
+        <AppBarChart
             title="Order Status"
             description="Current order distribution"
             data={orderStatusData}
             config={orderStatusConfig}
-            donut
-            innerRadius="50%"
-            outerRadius="80%"
             isLoading={isLoading}
-            centerContent={
-                <div className="space-y-1 text-center">
-                    <p className="text-2xl font-bold">
-                        {orders?.totalOrders.toLocaleString() ?? 0}
-                    </p>
-
-                    <p className="text-xs text-muted-foreground">
-                        Total Orders
-                    </p>
-                </div>
-            }
-            footerTitle="Total Orders"
-            footerDescription={`Showing total orders for ${periodLabel.toLowerCase()}`}
+            footerTitle={`Total Orders: ${currentOrders.totalOrders}`}
+            footerDescription={`Orders in ${periodLabel}`}
         />
     )
 }

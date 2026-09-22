@@ -1,7 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table"
 
 import type { LowStockProduct } from "../dashboard.types"
-import type { DataTableFeatures } from "@/components/data-table"
+import {
+    type DataTableFeatures,
+    DataTableAvatar,
+} from "@/components/data-table"
 
 export const columnHelper = createColumnHelper<
     DataTableFeatures,
@@ -15,12 +18,18 @@ export const columns = columnHelper.columns([
             const product = info.row.original
 
             return (
-                <div className="min-w-0">
-                    <p className="truncate font-medium">{product.productName}</p>
-
-                    <p className="truncate text-xs text-muted-foreground">
-                        {product.sku}
-                    </p>
+                <div className="flex min-w-0">
+                    <DataTableAvatar
+                        name={product.productName}
+                        image={product.productImage}
+                        className="mr-2 h-8 w-8"
+                    />
+                    <div>
+                        <p className="truncate font-medium">{product.productName}</p>
+                        <p className="truncate text-xs text-muted-foreground">
+                            {product.sku}
+                        </p>
+                    </div>
                 </div>
             )
         },

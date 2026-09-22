@@ -1,9 +1,10 @@
 import { Geist_Mono, Inter } from "next/font/google"
 
 import "./globals.css"
-import { StoreProvider } from '@/store/providers';
+import { StoreProvider } from "@/store/providers"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { ImageViewerProvider } from "@/components/image-viewer"
+import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   },
 }
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -50,12 +51,17 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        inter.variable
+      )}
     >
       <body>
         <ThemeProvider>
           <StoreProvider>
-            {children}
+            <ImageViewerProvider>{children}</ImageViewerProvider>
           </StoreProvider>
         </ThemeProvider>
       </body>
