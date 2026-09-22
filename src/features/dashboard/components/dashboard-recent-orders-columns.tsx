@@ -1,7 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table"
 
 import type { RecentOrder } from "../dashboard.types"
-import type { DataTableFeatures } from "@/components/data-table"
+import {
+    type DataTableFeatures,
+    DataTableAvatar,
+} from "@/components/data-table"
 
 export const columnHelper = createColumnHelper<DataTableFeatures, RecentOrder>()
 
@@ -22,11 +25,28 @@ export const columns = columnHelper.columns([
         },
     }),
 
-    columnHelper.accessor((row) => row.customer.name, {
-        id: "customerName",
+    columnHelper.accessor((row) => row.customer, {
+        id: "Customer",
         header: "Customer",
         sortFn: "sortFn_text",
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+            const customer = info.getValue()
+            return (
+                <div className="flex min-w-0 gap-1.5">
+                    <DataTableAvatar
+                        name={customer.name}
+                        image={customer.image}
+                        className="mr-2 h-8 w-8"
+                    />
+                    <div>
+                        <p className="truncate font-medium">{customer.name}</p>
+                        <p className="truncate text-xs text-muted-foreground">
+                            {customer.id}
+                        </p>
+                    </div>
+                </div>
+            )
+        },
     }),
 
     columnHelper.accessor("status", {

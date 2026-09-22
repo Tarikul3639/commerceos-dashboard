@@ -158,8 +158,6 @@ export function ImageViewer({
      * before using it as the transform origin.
      */
     const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-        event.preventDefault()
-
         const image = imageRef.current
 
         if (!image) {
@@ -172,7 +170,7 @@ export function ImageViewer({
             y: (event.clientY - imageRect.top) / zoom,
         }
         const zoomFactor = event.deltaY > 0 ? 0.9 : 1.1
-        const nextZoom = Math.min(Math.max(zoom * zoomFactor, 1), 4)
+        const nextZoom = Math.min(Math.max(zoom * zoomFactor, 1), 100)
 
         if (nextZoom === zoom) {
             return
@@ -266,15 +264,16 @@ export function ImageViewer({
                                 {currentIndex + 1} / {images.length}
                             </span>
                         )}
-
-                        <button
-                            type="button"
-                            onClick={handleReset}
-                            className="flex size-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-                            aria-label="Reset zoom"
-                        >
-                            <RotateCcw className="size-4" />
-                        </button>
+                        {zoom > 1 && (
+                            <button
+                                type="button"
+                                onClick={handleReset}
+                                className="flex size-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                                aria-label="Reset zoom"
+                            >
+                                <RotateCcw className="size-4" />
+                            </button>
+                        )}
 
                         <button
                             type="button"

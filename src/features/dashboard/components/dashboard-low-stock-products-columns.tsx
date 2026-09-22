@@ -18,7 +18,7 @@ export const columns = columnHelper.columns([
             const product = info.row.original
 
             return (
-                <div className="flex min-w-0">
+                <div className="flex gap-1.5 min-w-0">
                     <DataTableAvatar
                         name={product.productName}
                         image={product.productImage}
