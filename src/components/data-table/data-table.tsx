@@ -104,11 +104,12 @@ export function DataTable<TData extends RowData>({
   emptyIcon,
 }: DataTableProps<TData>) {
   // Internal pagination state for uncontrolled tables.
-  const [internalPagination, setInternalPagination] =
-    useState<PaginationState>({
+  const [internalPagination, setInternalPagination] = useState<PaginationState>(
+    {
       pageIndex: 0,
       pageSize: 10,
-    })
+    }
+  )
 
   // Uses controlled pagination when provided,
   // otherwise falls back to internal state.

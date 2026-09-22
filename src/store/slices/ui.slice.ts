@@ -1,3 +1,3 @@
-const uiReducer = (state = {}) => state;
+const uiReducer = (state = {}) => state
 
-export default uiReducer;
+export default uiReducer

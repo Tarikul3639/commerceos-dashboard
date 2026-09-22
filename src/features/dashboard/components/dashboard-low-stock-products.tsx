@@ -11,34 +11,33 @@ import { Button } from "@/components/ui/button"
 import { lowStockProducts } from "../dashboard.data"
 
 interface DashboardLowStockProductsProps {
-    products?: LowStockProduct[]
-    isLoading?: boolean
+  products?: LowStockProduct[]
+  isLoading?: boolean
 }
 
 /** Displays products that are currently low in stock. */
 export function DashboardLowStockProducts({
-    products = [],
-    isLoading = false,
+  products = [],
+  isLoading = false,
 }: DashboardLowStockProductsProps) {
-    return (
-        <DataTable
-            columns={columns}
-            data={lowStockProducts}
-            title="Low Stock Products"
-            description="Products that are low in stock"
-            isLoading={isLoading}
-            // columnVisibility
-            emptyText="No low stock products"
-            emptyIcon={Package}
-            showPagination={false}
-            toolbarActions={
-                <Button variant="link" size="sm" asChild>
-                    <Link href="/products">
-                        View All <ArrowRight className="size-4" />
-                    </Link>
-                </Button>
-            }
-        />
-
-    )
+  return (
+    <DataTable
+      columns={columns}
+      data={lowStockProducts}
+      title="Low Stock Products"
+      description="Products that are low in stock"
+      isLoading={isLoading}
+      // columnVisibility
+      emptyText="No low stock products"
+      emptyIcon={Package}
+      showPagination={false}
+      toolbarActions={
+        <Button variant="link" size="sm" asChild>
+          <Link href="/products">
+            View All <ArrowRight className="size-4" />
+          </Link>
+        </Button>
+      }
+    />
+  )
 }

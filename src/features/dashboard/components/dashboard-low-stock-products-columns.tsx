@@ -2,45 +2,45 @@ import { createColumnHelper } from "@tanstack/react-table"
 
 import type { LowStockProduct } from "../dashboard.types"
 import {
-    type DataTableFeatures,
-    DataTableAvatar,
+  type DataTableFeatures,
+  DataTableAvatar,
 } from "@/components/data-table"
 
 export const columnHelper = createColumnHelper<
-    DataTableFeatures,
-    LowStockProduct
+  DataTableFeatures,
+  LowStockProduct
 >()
 
 export const columns = columnHelper.columns([
-    columnHelper.accessor("productName", {
-        header: "Product",
-        cell: (info) => {
-            const product = info.row.original
+  columnHelper.accessor("productName", {
+    header: "Product",
+    cell: (info) => {
+      const product = info.row.original
 
-            return (
-                <div className="flex gap-1.5 min-w-0">
-                    <DataTableAvatar
-                        name={product.productName}
-                        image={product.productImage}
-                        className="mr-2 h-8 w-8"
-                    />
-                    <div>
-                        <p className="truncate font-medium">{product.productName}</p>
-                        <p className="truncate text-xs text-muted-foreground">
-                            {product.sku}
-                        </p>
-                    </div>
-                </div>
-            )
-        },
-    }),
+      return (
+        <div className="flex min-w-0 gap-1.5">
+          <DataTableAvatar
+            name={product.productName}
+            image={product.productImage}
+            className="mr-2 h-8 w-8"
+          />
+          <div>
+            <p className="truncate font-medium">{product.productName}</p>
+            <p className="truncate text-xs text-muted-foreground">
+              {product.sku}
+            </p>
+          </div>
+        </div>
+      )
+    },
+  }),
 
-    columnHelper.accessor("quantity", {
-        header: "Stock",
-        cell: (info) => {
-            const quantity = info.getValue()
+  columnHelper.accessor("quantity", {
+    header: "Stock",
+    cell: (info) => {
+      const quantity = info.getValue()
 
-            return <span className="font-medium">{quantity}</span>
-        },
-    }),
+      return <span className="font-medium">{quantity}</span>
+    },
+  }),
 ])

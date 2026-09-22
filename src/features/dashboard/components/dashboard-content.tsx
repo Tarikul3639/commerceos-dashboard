@@ -22,90 +22,90 @@ import { DashboardLowStockProducts } from "./dashboard-low-stock-products"
 import { DashboardRecentActivities } from "./dashboard-recent-activities"
 
 export function DashboardContent() {
-    const [query, setQuery] = useState<DashboardQuery>({
-        period: "30d",
-    })
+  const [query, setQuery] = useState<DashboardQuery>({
+    period: "30d",
+  })
 
-    const {
-        data: overview,
-        isLoading,
-        isFetching,
-        isError,
-    } = useGetDashboardOverviewQuery(query)
+  const {
+    data: overview,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetDashboardOverviewQuery(query)
 
-    const loading = isLoading || isFetching
+  const loading = isLoading || isFetching
 
-    return (
-        <div className="space-y-6">
-            {/* Dashboard Header */}
-            <DashboardHeader query={query} onQueryChange={setQuery} />
+  return (
+    <div className="space-y-6">
+      {/* Dashboard Header */}
+      <DashboardHeader query={query} onQueryChange={setQuery} />
 
-            {/* Key Business Metrics */}
-            <DashboardStats data={overview} isLoading={loading} isError={isError} />
+      {/* Key Business Metrics */}
+      <DashboardStats data={overview} isLoading={loading} isError={isError} />
 
-            {/* Financial Overview */}
-            <div className="grid min-w-0 gap-4">
-                <DashboardSalesSummary sales={overview?.sales} isLoading={loading} />
-            </div>
+      {/* Financial Overview */}
+      <div className="grid min-w-0 gap-4">
+        <DashboardSalesSummary sales={overview?.sales} isLoading={loading} />
+      </div>
 
-            {/* Operational Overview */}
-            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-                <DashboardOrderStatus
-                    orders={overview?.orders}
-                    query={query}
-                    isLoading={loading}
-                />
+      {/* Operational Overview */}
+      <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+        <DashboardOrderStatus
+          orders={overview?.orders}
+          query={query}
+          isLoading={loading}
+        />
 
-                <DashboardStockOverview stock={overview?.stock} isLoading={loading} />
-            </div>
+        <DashboardStockOverview stock={overview?.stock} isLoading={loading} />
+      </div>
 
-            {/* People Overview */}
-            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-                <DashboardCustomerOverview
-                    customers={overview?.customers}
-                    isLoading={loading}
-                />
+      {/* People Overview */}
+      <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+        <DashboardCustomerOverview
+          customers={overview?.customers}
+          isLoading={loading}
+        />
 
-                <DashboardEmployeeOverview
-                    employees={overview?.employees}
-                    isLoading={loading}
-                />
-            </div>
+        <DashboardEmployeeOverview
+          employees={overview?.employees}
+          isLoading={loading}
+        />
+      </div>
 
-            {/* Purchase Overview */}
-            <div className="grid min-w-0 gap-4">
-                <DashboardPurchaseSummary
-                    purchases={overview?.purchases}
-                    isLoading={loading}
-                />
-            </div>
+      {/* Purchase Overview */}
+      <div className="grid min-w-0 gap-4">
+        <DashboardPurchaseSummary
+          purchases={overview?.purchases}
+          isLoading={loading}
+        />
+      </div>
 
-            {/* Recent Orders */}
-            <div className="grid min-w-0 gap-4">
-                <DashboardRecentOrders
-                    orders={overview?.recentOrders}
-                    isLoading={loading}
-                />
-            </div>
+      {/* Recent Orders */}
+      <div className="grid min-w-0 gap-4">
+        <DashboardRecentOrders
+          orders={overview?.recentOrders}
+          isLoading={loading}
+        />
+      </div>
 
-            {/* Recent Activities & Inventory Alerts */}
-            <div className="grid min-w-0 gap-4 lg:grid-cols-5">
-                {/* Recent Activities */}
-                <div className="lg:col-span-3 h-full min-w-0 max-h-[520px] min-h-0">
-                    <DashboardRecentActivities
-                        activities={overview?.recentActivities}
-                        isLoading={loading}
-                    />
-                </div>
-
-                {/* Low Stock Products */}
-                <div className="lg:col-span-2 h-full min-w-0 max-h-[520px] min-h-0">
-                    <DashboardLowStockProducts
-                        products={overview?.lowStockProducts}
-                        isLoading={loading}
-                    />
-                </div>
-            </div>
+      {/* Recent Activities & Inventory Alerts */}
+      <div className="grid min-w-0 gap-4 lg:grid-cols-5">
+        {/* Recent Activities */}
+        <div className="h-full max-h-[520px] min-h-0 min-w-0 lg:col-span-3">
+          <DashboardRecentActivities
+            activities={overview?.recentActivities}
+            isLoading={loading}
+          />
         </div>
-    )
+
+        {/* Low Stock Products */}
+        <div className="h-full max-h-[520px] min-h-0 min-w-0 lg:col-span-2">
+          <DashboardLowStockProducts
+            products={overview?.lowStockProducts}
+            isLoading={loading}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }

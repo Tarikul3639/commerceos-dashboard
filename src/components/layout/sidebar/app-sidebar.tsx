@@ -6,13 +6,13 @@ import { SidebarNavigation } from "./sidebar-navigation"
 import { SidebarProfile } from "./sidebar-profile"
 
 export function AppSidebar() {
-    return (
-        <Sidebar collapsible="icon">
-            <SidebarBrand />
-            <SidebarSeparator />
-            <SidebarNavigation />
-            <SidebarSeparator />
-            <SidebarProfile />
-        </Sidebar>
-    )
+  return (
+    <Sidebar collapsible="icon">
+      <SidebarBrand />
+      <SidebarSeparator />
+      <SidebarNavigation />
+      <SidebarSeparator />
+      <SidebarProfile />
+    </Sidebar>
+  )
 }

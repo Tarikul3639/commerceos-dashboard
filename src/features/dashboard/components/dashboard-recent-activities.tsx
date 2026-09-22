@@ -9,33 +9,32 @@ import { columns } from "./dashboard-recent-activities-columns"
 import { recentActivities } from "../dashboard.data"
 
 interface DashboardRecentActivitiesProps {
-    activities?: RecentActivity[]
-    isLoading?: boolean
+  activities?: RecentActivity[]
+  isLoading?: boolean
 }
 
 /** Displays the latest dashboard activities. */
 export function DashboardRecentActivities({
-    activities = [],
-    isLoading = false,
+  activities = [],
+  isLoading = false,
 }: DashboardRecentActivitiesProps) {
-
-    return (
-        <DataTable
-            columns={columns}
-            data={recentActivities}
-            title="Recent Activities"
-            description="Latest activities on the dashboard"
-            isLoading={isLoading}
-            emptyText="No recent activities"
-            emptyIcon={Activity}
-            showPagination={false}
-            toolbarActions={
-                <Button variant="link" size="sm" asChild>
-                    <Link href="/activities">
-                        View All <ArrowRight className="size-4" />
-                    </Link>
-                </Button>
-            }
-        />
-    )
+  return (
+    <DataTable
+      columns={columns}
+      data={recentActivities}
+      title="Recent Activities"
+      description="Latest activities on the dashboard"
+      isLoading={isLoading}
+      emptyText="No recent activities"
+      emptyIcon={Activity}
+      showPagination={false}
+      toolbarActions={
+        <Button variant="link" size="sm" asChild>
+          <Link href="/activities">
+            View All <ArrowRight className="size-4" />
+          </Link>
+        </Button>
+      }
+    />
+  )
 }

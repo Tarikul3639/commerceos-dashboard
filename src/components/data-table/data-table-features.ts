@@ -1,39 +1,38 @@
 import {
-    columnFilteringFeature,
-    columnVisibilityFeature,
-    createFilteredRowModel,
-    createPaginatedRowModel,
-    createSortedRowModel,
-    globalFilteringFeature,
-    rowPaginationFeature,
-    rowSelectionFeature,
-    rowSortingFeature,
-    tableFeatures,
-
-    sortFn_alphanumeric,
-    sortFn_text,
-    sortFn_datetime,
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  tableFeatures,
+  sortFn_alphanumeric,
+  sortFn_text,
+  sortFn_datetime,
 } from "@tanstack/react-table"
 
 export const features = tableFeatures({
-    columnFilteringFeature,
-    columnVisibilityFeature,
+  columnFilteringFeature,
+  columnVisibilityFeature,
 
-    globalFilteringFeature,
-    filteredRowModel: createFilteredRowModel(),
+  globalFilteringFeature,
+  filteredRowModel: createFilteredRowModel(),
 
-    rowPaginationFeature,
-    paginatedRowModel: createPaginatedRowModel(),
+  rowPaginationFeature,
+  paginatedRowModel: createPaginatedRowModel(),
 
-    rowSelectionFeature,
-    rowSortingFeature,
-    sortedRowModel: createSortedRowModel(),
+  rowSelectionFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
 
-    sortFns: {
-        sortFn_text,
-        sortFn_datetime,
-        sortFn_alphanumeric
-    }
+  sortFns: {
+    sortFn_text,
+    sortFn_datetime,
+    sortFn_alphanumeric,
+  },
 })
 
 export type DataTableFeatures = typeof features

@@ -1,3 +1,3 @@
-const notificationReducer = (state = {}) => state;
+const notificationReducer = (state = {}) => state
 
-export default notificationReducer;
+export default notificationReducer

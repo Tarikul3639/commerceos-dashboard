@@ -5,19 +5,19 @@ import { PageLoader } from "@/components/shared/page-loader"
 import { AppShell } from "@/components/layout/app-shell"
 
 export default function DashboardLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode
 }) {
-    const { user, isLoading, isAuthenticated } = useAuth()
+  const { user, isLoading, isAuthenticated } = useAuth()
 
-    if (isLoading) {
-        return <PageLoader />
-    }
+  if (isLoading) {
+    return <PageLoader />
+  }
 
-    if (!isAuthenticated || !user) {
-        return null
-    }
+  if (!isAuthenticated || !user) {
+    return null
+  }
 
-    return <AppShell>{children}</AppShell>
+  return <AppShell>{children}</AppShell>
 }

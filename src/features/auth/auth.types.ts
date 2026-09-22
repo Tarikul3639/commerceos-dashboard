@@ -1,16 +1,16 @@
-import type { PermissionName } from "@/config/permissions.config";
-import type { RoleName } from "@/config/roles.config";
+import type { PermissionName } from "@/config/permissions.config"
+import type { RoleName } from "@/config/roles.config"
 
 export interface CurrentUserResponse {
-  id: string;
-  name: string;
-  email: string;
-  phone: string | null;
-  avatar: string | null;
-  role: RoleName;
-  permissions: PermissionName[];
-  isVerified: boolean;
-  lastLoginAt: string | null;
+  id: string
+  name: string
+  email: string
+  phone: string | null
+  avatar: string | null
+  role: RoleName
+  permissions: PermissionName[]
+  isVerified: boolean
+  lastLoginAt: string | null
 }
 
 export interface CurrentUserPayload {
