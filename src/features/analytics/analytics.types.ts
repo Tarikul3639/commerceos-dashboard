@@ -9,18 +9,10 @@ export interface RevenueChartData {
   revenue: string
 }
 
-export interface RevenueChartResponse {
-  data: RevenueChartData[]
-}
-
 export interface SalesChartData {
   date: string
   sales: string
   orders: number
-}
-
-export interface SalesChartResponse {
-  data: SalesChartData[]
 }
 
 export interface PurchaseChartData {
@@ -28,14 +20,10 @@ export interface PurchaseChartData {
   purchases: string
 }
 
-export interface PurchaseChartResponse {
-  data: PurchaseChartData[]
-}
-
 export interface AnalyticsOverview {
-  revenue: RevenueChartResponse
-  sales: SalesChartResponse
-  purchases: PurchaseChartResponse
+  revenue: RevenueChartData[]
+  sales: SalesChartData[]
+  purchases: PurchaseChartData[]
 }
 
 export interface TopProduct {

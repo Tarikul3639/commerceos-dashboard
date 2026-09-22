@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-import type { SalesChartResponse } from "../analytics.types"
+import type { SalesChartData, } from "../analytics.types"
 
-export function AnalyticsSales({ data }: { data?: SalesChartResponse }) {
-  const orders = data?.data.reduce((sum, item) => sum + item.orders, 0) ?? 0
+export function AnalyticsSales({ data }: { data?: SalesChartData[] }) {
+  const orders = data?.reduce((sum, item) => sum + item.orders, 0) ?? 0
 
   return (
     <Card>

@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-import type { RevenueChartResponse } from "../analytics.types"
+import type { RevenueChartData } from "../analytics.types"
 
-export function AnalyticsRevenue({ data }: { data?: RevenueChartResponse }) {
+export function AnalyticsRevenue({ data }: { data?: RevenueChartData[] }) {
   const total =
-    data?.data.reduce((sum, item) => sum + Number(item.revenue), 0) ?? 0
+    data?.reduce((sum, item) => sum + Number(item.revenue), 0) ?? 0
 
   return (
     <Card>

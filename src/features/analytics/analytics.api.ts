@@ -3,9 +3,9 @@ import { baseApi } from "@/lib/api/base-api"
 import type {
   AnalyticsOverview,
   AnalyticsQuery,
-  PurchaseChartResponse,
-  RevenueChartResponse,
-  SalesChartResponse,
+  PurchaseChartData,
+  RevenueChartData,
+  SalesChartData,
   TopCustomer,
   TopProduct,
 } from "./analytics.types"
@@ -23,7 +23,7 @@ export const analyticsApi = baseApi.injectEndpoints({
       providesTags: ["Analytics"],
     }),
 
-    getRevenueChart: builder.query<RevenueChartResponse, AnalyticsQuery | void>(
+    getRevenueChart: builder.query<RevenueChartData[], AnalyticsQuery | void>(
       {
         query: (params) => ({
           url: "/analytics/revenue-chart",
@@ -33,7 +33,7 @@ export const analyticsApi = baseApi.injectEndpoints({
       }
     ),
 
-    getSalesChart: builder.query<SalesChartResponse, AnalyticsQuery | void>({
+    getSalesChart: builder.query<SalesChartData[], AnalyticsQuery | void>({
       query: (params) => ({
         url: "/analytics/sales-chart",
         params: params ?? undefined,
@@ -42,7 +42,7 @@ export const analyticsApi = baseApi.injectEndpoints({
     }),
 
     getPurchaseChart: builder.query<
-      PurchaseChartResponse,
+      PurchaseChartData[],
       AnalyticsQuery | void
     >({
       query: (params) => ({
