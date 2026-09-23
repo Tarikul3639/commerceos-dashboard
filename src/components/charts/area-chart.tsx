@@ -1,14 +1,7 @@
 "use client"
 
-import {
-  Bar,
-  BarChart as RechartsBarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  Cell,
-} from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { TakaIcon } from "@/components/icons/taka-icon"
 
 import {
   Card,
@@ -28,132 +21,148 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 
-export interface BarChartData {
-  name: string
-  value: number
-  color?: string
+export interface AreaChartData {
+  [key: string]: string | number
 }
 
-interface AppBarChartProps {
-  data: BarChartData[]
+interface AppAreaChartProps {
+  data: AreaChartData[]
+  config: ChartConfig
+
+  /** X-axis data key */
+  xAxisKey: string
+
+  /** Area data keys */
+  dataKeys: string[]
+
+  /** Card title */
   title?: string
+
+  /** Card description */
   description?: string
-  config?: ChartConfig
+
+  /** Chart height */
   height?: number
+
+  /** Show grid */
   showGrid?: boolean
-  showXAxis?: boolean
-  showYAxis?: boolean
+
+  /** Show tooltip */
   showTooltip?: boolean
-  barRadius?: number
-  barSize?: number
+
+  /** X-axis formatter */
+  xAxisFormatter?: (value: string) => string
+
+  /** Y-axis formatter */
+  yAxisFormatter?: (value: number) => string
+
+  /** Tooltip value formatter */
+  tooltipFormatter?: (value: number) => string
+
+  /** Loading state */
   isLoading?: boolean
-  emptyMessage?: string
+
   className?: string
+  chartContainerClassName?: string
 }
 
-export function AppBarChart({
+export function AppAreaChart({
   data,
+  config,
+  xAxisKey,
+  dataKeys,
   title,
   description,
-  config = {}, // Not need
-  height = 280,
+  height = 250,
   showGrid = true,
-  showXAxis = true,
-  showYAxis = true,
   showTooltip = true,
-  barRadius = 6,
-  barSize = 40,
+  xAxisFormatter,
+  yAxisFormatter,
+  tooltipFormatter,
   isLoading = false,
-  emptyMessage = "No data available",
   className,
-}: AppBarChartProps) {
-  const isEmpty = !data?.length
-
+  chartContainerClassName,
+}: AppAreaChartProps) {
   return (
     <Card className={cn("overflow-hidden", className)}>
       {(title || description) && (
         <CardHeader>
           {title && <CardTitle>{title}</CardTitle>}
-
           {description && <CardDescription>{description}</CardDescription>}
         </CardHeader>
       )}
 
-      <CardContent>
+      <CardContent className="p-0">
         {isLoading ? (
-          <BarChartSkeleton height={height} />
-        ) : isEmpty ? (
           <div
-            className="flex items-center justify-center text-sm text-muted-foreground"
+            className={cn("w-full p-6", chartContainerClassName)}
             style={{ height }}
           >
-            {emptyMessage}
+            <Skeleton className="h-full w-full" />
           </div>
         ) : (
-          <ChartContainer config={config} className="w-full" style={{ height }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <RechartsBarChart
-                accessibilityLayer
-                data={data}
-                margin={{
-                  top: 8,
-                  right: 8,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                {showGrid && <CartesianGrid vertical={false} />}
+          <ChartContainer
+            config={config}
+            className={cn("aspect-auto w-full", chartContainerClassName)}
+            style={{ height }}
+          >
+            <AreaChart
+              accessibilityLayer
+              data={data}
+              margin={{
+                top: 10,
+                left: 5,
+                right: 5,
+              }}
+            >
+              {showGrid && <CartesianGrid vertical={false} />}
 
-                {showXAxis && (
-                  <XAxis
-                    dataKey="name"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={10}
-                  />
-                )}
+              <XAxis
+                dataKey={xAxisKey}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                minTickGap={32}
+                tickFormatter={xAxisFormatter}
+              />
 
-                {showYAxis && (
-                  <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    allowDecimals={false}
-                  />
-                )}
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={yAxisFormatter}
+              />
 
-                {showTooltip && (
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent />}
-                  />
-                )}
+              {showTooltip && (
+                <ChartTooltip
+                  cursor={false}
+                  content={
+                    <ChartTooltipContent
+                      indicator="dot"
+                      formatter={
+                        tooltipFormatter
+                          ? (value) => tooltipFormatter(Number(value))
+                          : undefined
+                      }
+                    />
+                  }
+                />
+              )}
 
-                <Bar dataKey="value" radius={barRadius} barSize={barSize}>
-                  {data.map((item) => (
-                    <Cell key={item.name} fill={item.color} />
-                  ))}
-                </Bar>
-              </RechartsBarChart>
-            </ResponsiveContainer>
+              {dataKeys.map((key) => (
+                <Area
+                  key={key}
+                  dataKey={key}
+                  type="monotone"
+                  fill={`var(--color-${key})`}
+                  fillOpacity={0.2}
+                  stroke={`var(--color-${key})`}
+                  strokeWidth={2}
+                />
+              ))}
+            </AreaChart>
           </ChartContainer>
         )}
       </CardContent>
     </Card>
-  )
-}
-
-function BarChartSkeleton({ height }: { height: number }) {
-  return (
-    <div
-      className="flex items-end justify-center gap-4 px-8 pb-6"
-      style={{ height }}
-    >
-      <Skeleton className="h-[35%] w-10 rounded-t-md" />
-      <Skeleton className="h-[65%] w-10 rounded-t-md" />
-      <Skeleton className="h-[45%] w-10 rounded-t-md" />
-      <Skeleton className="h-[80%] w-10 rounded-t-md" />
-      <Skeleton className="h-[55%] w-10 rounded-t-md" />
-    </div>
   )
 }

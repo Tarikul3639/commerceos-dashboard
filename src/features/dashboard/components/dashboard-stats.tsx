@@ -22,7 +22,7 @@ export function DashboardStats({
   isError = false,
 }: DashboardStatsProps) {
   return (
-    <StatCardGrid isLoading={isLoading} isError={isError} skeletonCount={6}>
+    <StatCardGrid isLoading={isLoading} isError={isError} skeletonCount={4}>
       {data && (
         <>
           <StatCard
@@ -38,13 +38,6 @@ export function DashboardStats({
             value={data.orders.totalOrders.toLocaleString()}
             icon={<ShoppingCart className="size-4" />}
             description="All orders"
-          />
-
-          <StatCard
-            title="Total Customers"
-            value={data.customers.totalCustomers.toLocaleString()}
-            trend={data.customers.customerGrowth}
-            icon={<Users className="size-4" />}
           />
 
           <StatCard
@@ -64,12 +57,12 @@ export function DashboardStats({
             icon={<ShoppingBag className="size-4" />}
           />
 
-          <StatCard
+          {/* <StatCard
             title="Total Employees"
             value={data.employees.totalEmployees.toLocaleString()}
             icon={<UsersRound className="size-4" />}
             description="All employees"
-          />
+          /> */}
         </>
       )}
     </StatCardGrid>

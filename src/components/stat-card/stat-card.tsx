@@ -36,7 +36,7 @@ export function StatCard({
       className={className}
       valueClassName={valueClassName}
       description={
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5 sm:gap-x-2 sm:gap-y-1">
           {trend !== undefined && (
             <TrendIndicator
               value={trend}

@@ -117,6 +117,7 @@ export function AppPieChart({
           <ChartContainer
             config={config}
             className={cn("h-full w-full", chartContainerClassName)}
+            style={{ height }}
           >
             <ResponsiveContainer width="100%" height="100%">
               <RechartsPieChart>

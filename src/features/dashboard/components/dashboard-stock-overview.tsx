@@ -64,6 +64,7 @@ export function DashboardStockOverview({
         data={stockStatusData}
         config={stockStatusConfig}
         donut
+        height={300}
         innerRadius="55%"
         outerRadius="85%"
         isLoading={isLoading}

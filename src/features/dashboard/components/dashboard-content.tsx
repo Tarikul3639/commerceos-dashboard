@@ -36,7 +36,7 @@ export function DashboardContent() {
   const loading = isLoading || isFetching
 
   return (
-    <div className="space-y-6">
+    <div className="grid min-w-0 gap-3">
       {/* Dashboard Header */}
       <DashboardHeader query={query} onQueryChange={setQuery} />
 
@@ -45,18 +45,24 @@ export function DashboardContent() {
 
       {/* Financial Overview */}
       <div className="grid min-w-0 gap-4">
-        <DashboardSalesSummary sales={overview?.sales} isLoading={loading} />
+        <DashboardSalesSummary
+          sales={overview?.sales}
+          isLoading={loading}
+        />
       </div>
 
       {/* Operational Overview */}
-      <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+      <div className="grid min-w-0 gap-3 lg:grid-cols-2">
         <DashboardOrderStatus
           orders={overview?.orders}
           query={query}
           isLoading={loading}
         />
 
-        <DashboardStockOverview stock={overview?.stock} isLoading={loading} />
+        <DashboardStockOverview
+          stock={overview?.stock}
+          isLoading={loading}
+        />
       </div>
 
       {/* People Overview */}
@@ -89,9 +95,9 @@ export function DashboardContent() {
       </div>
 
       {/* Recent Activities & Inventory Alerts */}
-      <div className="grid min-w-0 gap-4 lg:grid-cols-5">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-5 max-h-150">
         {/* Recent Activities */}
-        <div className="h-full max-h-[520px] min-h-0 min-w-0 lg:col-span-3">
+        <div className="h-full min-h-0 min-w-0 lg:col-span-3">
           <DashboardRecentActivities
             activities={overview?.recentActivities}
             isLoading={loading}
@@ -99,7 +105,7 @@ export function DashboardContent() {
         </div>
 
         {/* Low Stock Products */}
-        <div className="h-full max-h-[520px] min-h-0 min-w-0 lg:col-span-2">
+        <div className="h-full min-h-0 min-w-0 lg:col-span-2">
           <DashboardLowStockProducts
             products={overview?.lowStockProducts}
             isLoading={loading}

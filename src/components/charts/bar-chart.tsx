@@ -32,6 +32,7 @@ interface AppBarChartProps {
   data: BarChartData[]
   config: ChartConfig
   title?: string
+  height?: number
   description?: string
   className?: string
   footerTitle?: string
@@ -44,6 +45,7 @@ export function AppBarChart({
   config,
   title,
   description,
+  height,
   className,
   footerTitle = "Total Visitors",
   footerDescription = "Visitors in the last 30 days",
@@ -62,7 +64,7 @@ export function AppBarChart({
         {isLoading ? (
           <Skeleton className="w-full" />
         ) : (
-          <ChartContainer config={config} className="h-full w-full">
+          <ChartContainer config={config} className="h-full w-full" style={{ height }}>
             <BarChart
               accessibilityLayer
               data={data}

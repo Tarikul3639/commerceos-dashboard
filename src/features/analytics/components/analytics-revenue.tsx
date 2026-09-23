@@ -1,19 +1,53 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+"use client"
+
+import type { ChartConfig } from "@/components/ui/chart"
+
+import { AppAreaChart } from "@/components/charts"
 
 import type { RevenueChartData } from "../analytics.types"
+import { formatCurrency } from "@/lib/utils/format-currency"
+import { revenueChartData } from "../analytics.data"
 
-export function AnalyticsRevenue({ data }: { data?: RevenueChartData[] }) {
-  const total =
-    data?.reduce((sum, item) => sum + Number(item.revenue), 0) ?? 0
+const chartConfig = {
+  revenue: {
+    label: "Revenue",
+    color: "var(--chart-1)",
+  },
+} satisfies ChartConfig
+
+export function AnalyticsRevenue({
+  revenue,
+  isLoading,
+}: {
+  revenue?: RevenueChartData[]
+  isLoading: boolean
+}) {
+  revenue = revenueChartData
+
+  const data = revenue.map((item, index) => ({
+    date: item.date,
+    revenue: Number(item.revenue),
+  }))
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Revenue</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-2xl font-semibold">{total.toLocaleString()}</p>
-      </CardContent>
-    </Card>
+    <AppAreaChart
+      data={data}
+      config={chartConfig}
+      xAxisKey="date"
+      dataKeys={["revenue"]}
+      title="Revenue Overview"
+      description="Daily revenue performance"
+      isLoading={isLoading}
+      xAxisFormatter={(value) => {
+        const date = new Date(value)
+
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        })
+      }}
+      yAxisFormatter={(value) => formatCurrency(value, { compact: true })}
+      tooltipFormatter={(value) => formatCurrency(value, { compact: false })}
+    />
   )
 }

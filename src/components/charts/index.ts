@@ -4,3 +4,6 @@ export type { PieChartData } from "./pie-chart"
 // Bar chart
 export { AppBarChart } from "./bar-chart"
 export type { BarChartData } from "./bar-chart"
+// Area chart
+export { AppAreaChart } from "./area-chart"
+export type { AreaChartData } from "./area-chart"
