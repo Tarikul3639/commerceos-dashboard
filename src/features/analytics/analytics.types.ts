@@ -9,21 +9,11 @@ export interface RevenueChartData {
   revenue: string
 }
 
-export interface SalesChartData {
+export interface SalesPurchaseChartData {
   date: string
   sales: string
-  orders: number
-}
-
-export interface PurchaseChartData {
-  date: string
   purchases: string
-}
-
-export interface AnalyticsOverview {
-  revenue: RevenueChartData[]
-  sales: SalesChartData[]
-  purchases: PurchaseChartData[]
+  orders: number
 }
 
 export interface TopProduct {

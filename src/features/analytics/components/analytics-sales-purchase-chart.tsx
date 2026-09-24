@@ -1,12 +1,6 @@
 "use client"
 
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis, LabelList } from "recharts"
 
 import {
   Card,
@@ -27,44 +21,53 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import { formatCurrency } from "@/lib/utils/format-currency"
 
-import type { RevenueChartData } from "../analytics.types"
-import { revenueChartData } from "../analytics.data"
+import type { SalesPurchaseChartData } from "../analytics.types"
+import { salesPurchaseChartData } from "../analytics.data"
 
 const chartConfig = {
-  revenue: {
-    label: "Revenue",
+  sales: {
+    label: "Sales",
     color: "var(--chart-1)",
+  },
+  orders: {
+    label: "Orders",
+    color: "var(--chart-2)",
+  },
+  purchases: {
+    label: "Purchases",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig
 
-export function AnalyticsRevenue({
-  revenue,
-  isLoading,
-}: {
-  revenue?: RevenueChartData[]
+interface AnalyticsSalesVsPurchaseChartProps {
+  data?: SalesPurchaseChartData[]
   isLoading: boolean
-}) {
-  const revenueData = revenueChartData
+  isFetching: boolean
+}
 
-  const data = revenueData.map((item) => ({
-    date: item.date,
-    revenue: Number(item.revenue),
-  }))
+export function AnalyticsSalesVsPurchaseChart({
+  data,
+  isLoading,
+  isFetching,
+}: AnalyticsSalesVsPurchaseChartProps) {
+  // const chartData = data ?? []
+  const chartData = salesPurchaseChartData
+  const loading = isLoading || isFetching
 
   return (
     <Card className="min-w-0 overflow-hidden py-0">
       <CardHeader className="px-3 py-3 sm:px-4 sm:py-3.5">
         <CardTitle className="text-sm sm:text-base">
-          Revenue Overview
+          Sales & Purchase Overview
         </CardTitle>
 
         <CardDescription className="text-xs sm:text-sm">
-          Daily revenue performance
+          Daily sales, purchases, and order performance
         </CardDescription>
       </CardHeader>
 
       <CardContent className="px-0 pb-3 sm:pb-4">
-        {isLoading ? (
+        {loading ? (
           <div className="h-[200px] w-full px-3 sm:h-[220px] sm:px-4">
             <Skeleton className="h-full w-full" />
           </div>
@@ -73,12 +76,12 @@ export function AnalyticsRevenue({
             config={chartConfig}
             className="aspect-auto h-[200px] w-full sm:h-[220px]"
           >
-            <BarChart
+            <LineChart
               accessibilityLayer
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
-                right: 10,
+                right: 25,
                 left: 25,
                 bottom: 0,
               }}
@@ -104,29 +107,36 @@ export function AnalyticsRevenue({
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) =>
-                  formatCurrency(value, { compact: true })
-                }
+                tickFormatter={(value) => formatCurrency(value)}
               />
 
               <ChartTooltip
                 cursor={false}
-                content={
-                  <ChartTooltipContent
-                    indicator="dot"
-                    formatter={(value) =>
-                      formatCurrency(Number(value), { compact: false })
-                    }
-                  />
-                }
+                content={<ChartTooltipContent indicator="dot" />}
               />
 
-              <Bar
-                dataKey="revenue"
-                fill="var(--color-revenue)"
-                radius={[4, 4, 0, 0]}
+              <Line
+                dataKey="sales"
+                type="monotone"
+                stroke="var(--color-sales)"
+                strokeWidth={2}
+                activeDot={{ r: 4 }}
+              >
+                <LabelList
+                  dataKey="orders"
+                  position="top"
+                />
+              </Line>
+
+              <Line
+                dataKey="purchases"
+                type="monotone"
+                stroke="var(--color-purchases)"
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 4 }}
               />
-            </BarChart>
+            </LineChart>
           </ChartContainer>
         )}
       </CardContent>

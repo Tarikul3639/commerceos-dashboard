@@ -26,7 +26,7 @@ export function MetricCard({
   return (
     <Card
       className={cn(
-        "py-0 shadow-sm",
+        "py-0",
         className
       )}
     >

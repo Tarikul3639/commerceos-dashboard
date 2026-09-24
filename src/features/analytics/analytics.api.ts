@@ -1,52 +1,29 @@
 import { baseApi } from "@/lib/api/base-api"
 
 import type {
-  AnalyticsOverview,
   AnalyticsQuery,
-  PurchaseChartData,
   RevenueChartData,
-  SalesChartData,
+  SalesPurchaseChartData,
   TopCustomer,
   TopProduct,
 } from "./analytics.types"
 
 export const analyticsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAnalyticsOverview: builder.query<
-      AnalyticsOverview,
-      AnalyticsQuery | void
-    >({
+    getRevenueChart: builder.query<RevenueChartData[], AnalyticsQuery | void>({
       query: (params) => ({
-        url: "/analytics",
+        url: "/analytics/revenue-chart",
         params: params ?? undefined,
       }),
       providesTags: ["Analytics"],
     }),
 
-    getRevenueChart: builder.query<RevenueChartData[], AnalyticsQuery | void>(
-      {
-        query: (params) => ({
-          url: "/analytics/revenue-chart",
-          params: params ?? undefined,
-        }),
-        providesTags: ["Analytics"],
-      }
-    ),
-
-    getSalesChart: builder.query<SalesChartData[], AnalyticsQuery | void>({
-      query: (params) => ({
-        url: "/analytics/sales-chart",
-        params: params ?? undefined,
-      }),
-      providesTags: ["Analytics"],
-    }),
-
-    getPurchaseChart: builder.query<
-      PurchaseChartData[],
+    getSalesPurchaseChart: builder.query<
+      SalesPurchaseChartData[],
       AnalyticsQuery | void
     >({
       query: (params) => ({
-        url: "/analytics/purchase-chart",
+        url: "/analytics/sales-purchase-chart",
         params: params ?? undefined,
       }),
       providesTags: ["Analytics"],
@@ -71,10 +48,8 @@ export const analyticsApi = baseApi.injectEndpoints({
 })
 
 export const {
-  useGetAnalyticsOverviewQuery,
   useGetRevenueChartQuery,
-  useGetSalesChartQuery,
-  useGetPurchaseChartQuery,
+  useGetSalesPurchaseChartQuery,
   useGetTopProductsQuery,
   useGetTopCustomersQuery,
 } = analyticsApi

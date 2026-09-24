@@ -40,12 +40,24 @@ export function DataTableAvatar({
 
   return (
     <Avatar
-      className={cn("size-8 shrink-0", image && "cursor-pointer", className)}
+      className={cn(
+        "size-8 shrink-0 overflow-hidden rounded-full",
+        image && "cursor-pointer",
+        className
+      )}
       onClick={handleImageClick}
     >
-      {image && <AvatarImage src={image} alt={name} />}
+      {image && (
+        <AvatarImage
+          className="h-full w-full rounded-none"
+          src={image}
+          alt={name}
+        />
+      )}
 
-      <AvatarFallback>{initials}</AvatarFallback>
+      <AvatarFallback className="h-full w-full rounded-none">
+        {initials}
+      </AvatarFallback>
     </Avatar>
   )
 }

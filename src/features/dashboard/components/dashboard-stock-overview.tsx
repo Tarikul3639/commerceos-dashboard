@@ -65,8 +65,8 @@ export function DashboardStockOverview({
         config={stockStatusConfig}
         donut
         height={300}
-        innerRadius="55%"
-        outerRadius="85%"
+        innerRadius="60%"
+        outerRadius="90%"
         isLoading={isLoading}
         centerContent={
           <div className="space-y-1 text-center">

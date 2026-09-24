@@ -57,11 +57,9 @@ export function DashboardCustomerOverview({
       donut
       height={260}
       innerRadius="60%"
-      outerRadius="100%"
+      outerRadius="90%"
       centerContent={
         <div className="flex flex-col items-center">
-          <Users className="mb-1 size-5 text-muted-foreground" />
-
           <span className="text-2xl font-bold tracking-tight">
             {totalCustomers.toLocaleString("en-BD")}
           </span>
