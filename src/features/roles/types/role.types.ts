@@ -1,0 +1,68 @@
+export enum RoleName {
+    SUPER_ADMIN = "SUPER_ADMIN",
+    ADMIN = "ADMIN",
+    MANAGER = "MANAGER",
+    EMPLOYEE = "EMPLOYEE",
+}
+
+export enum PermissionName {
+    // USER
+    USER_CREATE = "USER_CREATE",
+    USER_READ = "USER_READ",
+    USER_UPDATE = "USER_UPDATE",
+    USER_DELETE = "USER_DELETE",
+
+    // ROLE
+    ROLE_CREATE = "ROLE_CREATE",
+    ROLE_READ = "ROLE_READ",
+    ROLE_UPDATE = "ROLE_UPDATE",
+    ROLE_DELETE = "ROLE_DELETE",
+
+    // PRODUCT
+    PRODUCT_CREATE = "PRODUCT_CREATE",
+    PRODUCT_READ = "PRODUCT_READ",
+    PRODUCT_UPDATE = "PRODUCT_UPDATE",
+    PRODUCT_DELETE = "PRODUCT_DELETE",
+
+    // ORDER
+    ORDER_CREATE = "ORDER_CREATE",
+    ORDER_READ = "ORDER_READ",
+    ORDER_UPDATE = "ORDER_UPDATE",
+    ORDER_DELETE = "ORDER_DELETE",
+
+    // PURCHASE
+    PURCHASE_CREATE = "PURCHASE_CREATE",
+    PURCHASE_READ = "PURCHASE_READ",
+    PURCHASE_UPDATE = "PURCHASE_UPDATE",
+    PURCHASE_DELETE = "PURCHASE_DELETE",
+
+    // STOCK
+    STOCK_CREATE = "STOCK_CREATE",
+    STOCK_READ = "STOCK_READ",
+    STOCK_UPDATE = "STOCK_UPDATE",
+    STOCK_DELETE = "STOCK_DELETE",
+}
+
+export interface Role {
+    id: string
+    name: RoleName
+    description: string | null
+    permissions: PermissionName[]
+    userCount: number
+    createdAt: string
+    updatedAt: string
+}
+
+export interface CreateRolePayload {
+    name: RoleName
+    description?: string
+}
+
+export interface UpdateRolePayload {
+    name?: RoleName
+    description?: string
+}
+
+export interface AssignPermissionsPayload {
+    permissions: PermissionName[]
+}

@@ -81,8 +81,8 @@ export function AnalyticsSalesVsPurchaseChart({
               data={chartData}
               margin={{
                 top: 10,
-                right: 25,
-                left: 25,
+                right: 24,
+                left: 12,
                 bottom: 0,
               }}
             >

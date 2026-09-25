@@ -250,10 +250,10 @@ export function ImageViewer({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="h-screen! w-screen! max-w-none! overflow-hidden border-0 bg-black/95 p-0 shadow-none sm:h-auto! sm:max-h-[90vh] sm:max-w-5xl!"
+        className="h-screen! w-screen! max-w-none! overflow-hidden border-0 p-0 shadow-none sm:h-auto! sm:max-h-[90vh] sm:max-w-5xl!"
       >
         {/* Header */}
-        <DialogHeader className="absolute top-0 right-0 left-0 z-50 flex-row items-center justify-between bg-black/50 px-4 py-3">
+        <DialogHeader className="absolute top-0 right-0 left-0 z-50 flex-row items-center bg-accent/10 justify-between px-4 py-3">
           <span className="text-sm font-medium text-white">
             {currentImage.alt}
           </span>

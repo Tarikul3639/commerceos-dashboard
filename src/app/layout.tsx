@@ -4,6 +4,7 @@ import "./globals.css"
 import { StoreProvider } from "@/store/providers"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ImageViewerProvider } from "@/components/image-viewer"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 
@@ -59,11 +60,13 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>
-          <StoreProvider>
-            <ImageViewerProvider>{children}</ImageViewerProvider>
-          </StoreProvider>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider>
+            <StoreProvider>
+              <ImageViewerProvider>{children}</ImageViewerProvider>
+            </StoreProvider>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   )

@@ -79,7 +79,7 @@ export function AnalyticsRevenue({
               margin={{
                 top: 10,
                 right: 10,
-                left: 25,
+                left: 12,
                 bottom: 0,
               }}
             >

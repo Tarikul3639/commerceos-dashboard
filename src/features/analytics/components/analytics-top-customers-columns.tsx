@@ -21,7 +21,7 @@ export const columns = columnHelper.columns([
                     <DataTableAvatar
                         name={customer.customerName}
                         image={customer.customerImage}
-                        className="h-10 w-10 shrink-0 rounded-sm"
+                        className="h-10 w-10 shrink-0 rounded-full"
                     />
 
                     <div className="min-w-0">
