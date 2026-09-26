@@ -50,19 +50,12 @@ export function DashboardStats({
           />
 
           <StatCard
-            title="Total Purchases"
-            value={`${Number(data.purchases.totalPurchases).toLocaleString()}`}
-            isAmount
-            trend={data.purchases.purchaseGrowth}
+            title="Total Products"
+            value={data.stock.totalProducts.toLocaleString()}
             icon={<ShoppingBag className="size-4" />}
+            description="All products in stock"
           />
 
-          {/* <StatCard
-            title="Total Employees"
-            value={data.employees.totalEmployees.toLocaleString()}
-            icon={<UsersRound className="size-4" />}
-            description="All employees"
-          /> */}
         </>
       )}
     </StatCardGrid>

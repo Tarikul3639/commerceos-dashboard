@@ -2,9 +2,7 @@ import type {
   RecentActivity,
   RecentOrder,
   LowStockProduct,
-  PurchaseSummary,
   CustomerSummary,
-  EmployeeSummary,
   OrderSummary,
   StockSummary,
 } from "./dashboard.types"
@@ -27,26 +25,12 @@ export const orderSummary: OrderSummary = {
   cancelledOrders: 33,
 }
 
-export const employeeSummary: EmployeeSummary = {
-  totalEmployees: 45,
-  activeEmployees: 42,
-  newEmployees: 3,
-}
-
 export const customerSummary: CustomerSummary = {
   totalCustomers: 5420,
   newCustomers: 125,
   activeCustomers: 850,
   returningCustomers: 420,
   customerGrowth: 8.7,
-}
-
-export const purchaseSummary: PurchaseSummary = {
-  totalPurchases: "850000",
-  todayPurchases: "25000",
-  totalPurchaseOrders: 325,
-  pendingPurchases: 12,
-  purchaseGrowth: 8.4,
 }
 
 export const recentOrders: RecentOrder[] = [
@@ -179,20 +163,7 @@ export const recentOrders: RecentOrder[] = [
     status: "PROCESSING",
     paymentStatus: "PAID",
     createdAt: "2026-09-21T07:20:18.900Z",
-  },
-  {
-    id: "order_011",
-    orderNumber: "ORD-2026-1011",
-    customer: {
-      id: "customer_011",
-      name: "Ava Thomas",
-      image: "https://i.pravatar.cc/150?img=25",
-    },
-    total: "675.00",
-    status: "CANCELLED",
-    paymentStatus: "REFUNDED",
-    createdAt: "2026-09-21T06:15:05.300Z",
-  },
+  }
 ]
 
 export const lowStockProducts: LowStockProduct[] = [
@@ -421,6 +392,40 @@ export const recentActivities: RecentActivity[] = [
       name: "Daniel Miller",
       email: "daniel@example.com",
       avatar: "https://i.pravatar.cc/150?img=17",
+    },
+    createdAt: "2026-09-21T14:18:42.500Z",
+  },
+  {
+    id: "activity_009",
+    type: "CREATE",
+    module: "Products",
+    action: "Product Created",
+    description: "Created a new product Google Pixel 7 Pro",
+    entityType: "Product",
+    entityId: "product_004",
+    userId: "user_009",
+    user: {
+      id: "user_009",
+      name: "William Lee",
+      email: "abcd@gmail.com",
+      avatar: "https://i.pravatar.cc/150?img=18",
+    },
+    createdAt: "2026-09-21T14:18:42.500Z",
+  },
+  {
+    id: "activity_010",
+    type: "UPDATE",
+    module: "Inventory",
+    action: "Stock Updated",
+    description: "Updated stock quantity for product Logitech MX Master 3S",
+    entityType: "Product",
+    entityId: "product_005",
+    userId: "user_010",
+    user: {
+      id: "user_010",
+      name: "James Anderson",
+      email: "james@gmail.com",
+      avatar: "https://i.pravatar.cc/150?img=19",
     },
     createdAt: "2026-09-21T14:18:42.500Z",
   },

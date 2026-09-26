@@ -3,10 +3,8 @@ import { baseApi } from "@/lib/api/base-api"
 import type {
   CustomerSummary,
   DashboardOverview,
-  EmployeeSummary,
   LowStockProduct,
   OrderSummary,
-  PurchaseSummary,
   SalesSummary,
   StockSummary,
   RecentActivity,
@@ -35,14 +33,6 @@ export const dashboardApi = baseApi.injectEndpoints({
       providesTags: ["Dashboard"],
     }),
 
-    getPurchaseSummary: builder.query<PurchaseSummary, DashboardQuery | void>({
-      query: (params) => ({
-        url: "/dashboard/purchase-summary",
-        params: params ?? undefined,
-      }),
-      providesTags: ["Dashboard"],
-    }),
-
     getStockSummary: builder.query<StockSummary, DashboardQuery | void>({
       query: (params) => ({
         url: "/dashboard/stock-summary",
@@ -62,14 +52,6 @@ export const dashboardApi = baseApi.injectEndpoints({
     getCustomerSummary: builder.query<CustomerSummary, DashboardQuery | void>({
       query: (params) => ({
         url: "/dashboard/customer-summary",
-        params: params ?? undefined,
-      }),
-      providesTags: ["Dashboard"],
-    }),
-
-    getEmployeeSummary: builder.query<EmployeeSummary, DashboardQuery | void>({
-      query: (params) => ({
-        url: "/dashboard/employee-summary",
         params: params ?? undefined,
       }),
       providesTags: ["Dashboard"],
@@ -109,11 +91,9 @@ export const dashboardApi = baseApi.injectEndpoints({
 export const {
   useGetDashboardOverviewQuery,
   useGetSalesSummaryQuery,
-  useGetPurchaseSummaryQuery,
   useGetStockSummaryQuery,
   useGetOrderSummaryQuery,
   useGetCustomerSummaryQuery,
-  useGetEmployeeSummaryQuery,
   useGetLowStockProductsQuery,
   useGetRecentActivitiesQuery,
   useGetRecentOrdersQuery,

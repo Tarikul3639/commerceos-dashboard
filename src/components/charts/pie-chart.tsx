@@ -84,7 +84,7 @@ export function AppPieChart({
   innerRadius = "60%",
   outerRadius = "80%",
   paddingAngle = 2,
-  height = 280,
+  height,
   showTooltip = true,
   centerContent,
   footerTitle,

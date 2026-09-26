@@ -23,6 +23,7 @@ import { formatCurrency } from "@/lib/utils/format-currency"
 
 import type { SalesPurchaseChartData } from "../analytics.types"
 import { salesPurchaseChartData } from "../analytics.data"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 const chartConfig = {
   sales: {
@@ -53,6 +54,8 @@ export function AnalyticsSalesVsPurchaseChart({
   // const chartData = data ?? []
   const chartData = salesPurchaseChartData
   const loading = isLoading || isFetching
+
+  const isMobile = useIsMobile()
 
   return (
     <Card className="min-w-0 overflow-hidden py-0">
@@ -104,11 +107,13 @@ export function AnalyticsSalesVsPurchaseChart({
                 }}
               />
 
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => formatCurrency(value)}
-              />
+              {!isMobile && (
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => formatCurrency(value)}
+                />
+              )}
 
               <ChartTooltip
                 cursor={false}
@@ -122,10 +127,12 @@ export function AnalyticsSalesVsPurchaseChart({
                 strokeWidth={2}
                 activeDot={{ r: 4 }}
               >
-                <LabelList
-                  dataKey="orders"
-                  position="top"
-                />
+                {!isMobile && (
+                  <LabelList
+                    dataKey="orders"
+                    position="top"
+                  />
+                )}
               </Line>
 
               <Line

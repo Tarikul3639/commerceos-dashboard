@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react"
+
 import {
   BarChart3,
   Boxes,
@@ -8,18 +9,22 @@ import {
   Settings,
   ShoppingCart,
   Store,
+  Tags,
   Truck,
+  UserCog,
   Users,
   Warehouse,
+  Bell,
+  ChartNoAxesCombined,
 } from "lucide-react"
 
-import { RoleName } from "@/config/roles.config"
+import { Permission } from "@/config/permissions.config"
 
 export interface NavigationItem {
   title: string
   href: string
   icon: LucideIcon
-  roles?: RoleName[]
+  permission?: Permission
 }
 
 export interface NavigationGroup {
@@ -27,106 +32,234 @@ export interface NavigationGroup {
   items: NavigationItem[]
 }
 
-const ALL_ROLES: RoleName[] = [
-  RoleName.ADMIN,
-  RoleName.EMPLOYEE,
-  RoleName.MANAGER,
-  RoleName.SUPER_ADMIN,
-]
-
 export const navigation: NavigationGroup[] = [
+  // ─────────────────────────────────────────────
+  // Overview
+  // ─────────────────────────────────────────────
+
   {
     title: "Overview",
+
     items: [
       {
         title: "Dashboard",
         href: "/dashboard",
         icon: LayoutDashboard,
-        roles: ALL_ROLES,
+        permission: Permission.DASHBOARD_READ,
       },
+
       {
         title: "Analytics",
         href: "/dashboard/analytics",
-        icon: BarChart3,
-        roles: ALL_ROLES,
+        icon: ChartNoAxesCombined,
+        permission: Permission.ANALYTICS_READ,
       },
     ],
   },
 
+  // ─────────────────────────────────────────────
+  // Management
+  // ─────────────────────────────────────────────
+
   {
     title: "Management",
+
     items: [
       {
         title: "Users",
         href: "/dashboard/users",
         icon: Users,
-        roles: [RoleName.SUPER_ADMIN],
+        permission: Permission.USER_READ,
       },
+
+      {
+        title: "Permissions",
+        href: "/dashboard/permissions",
+        icon: UserCog,
+        permission: Permission.PERMISSION_READ,
+      },
+
       {
         title: "Customers",
         href: "/dashboard/customers",
         icon: Users,
-        roles: [RoleName.SUPER_ADMIN, RoleName.ADMIN, RoleName.MANAGER],
+        permission: Permission.CUSTOMER_READ,
       },
-      {
-        title: "Products",
-        href: "/dashboard/products",
-        icon: Package,
-        roles: ALL_ROLES,
-      },
+
       {
         title: "Categories",
         href: "/dashboard/categories",
         icon: Boxes,
-        roles: ALL_ROLES,
+        permission: Permission.CATEGORY_READ,
       },
+
+      {
+        title: "Brands",
+        href: "/dashboard/brands",
+        icon: Tags,
+        permission: Permission.BRAND_READ,
+      },
+
+      {
+        title: "Attributes",
+        href: "/dashboard/attributes",
+        icon: Tags,
+        permission: Permission.ATTRIBUTE_READ,
+      },
+
+      {
+        title: "Products",
+        href: "/dashboard/products",
+        icon: Package,
+        permission: Permission.PRODUCT_READ,
+      },
+
+      {
+        title: "Discounts",
+        href: "/dashboard/discounts",
+        icon: Tags,
+        permission: Permission.DISCOUNT_READ,
+      },
+
       {
         title: "Orders",
         href: "/dashboard/orders",
         icon: ShoppingCart,
-        roles: ALL_ROLES,
+        permission: Permission.ORDER_READ,
       },
     ],
   },
 
+  // ─────────────────────────────────────────────
+  // Inventory
+  // ─────────────────────────────────────────────
+
   {
     title: "Inventory",
+
     items: [
       {
         title: "Warehouses",
         href: "/dashboard/warehouses",
         icon: Warehouse,
-        roles: ALL_ROLES,
+        permission: Permission.WAREHOUSE_READ,
       },
+
+      {
+        title: "Stock",
+        href: "/dashboard/stocks",
+        icon: Boxes,
+        permission: Permission.STOCK_READ,
+      },
+
+      {
+        title: "Stock Movements",
+        href: "/dashboard/stock-movements",
+        icon: ClipboardList,
+        permission: Permission.STOCK_MOVEMENT_READ,
+      },
+
       {
         title: "Stock Transfers",
         href: "/dashboard/stock-transfers",
         icon: Truck,
-        roles: ALL_ROLES,
+        permission: Permission.STOCK_TRANSFER_READ,
       },
+
       {
         title: "Suppliers",
         href: "/dashboard/suppliers",
         icon: Store,
-        roles: ALL_ROLES,
+        permission: Permission.SUPPLIER_READ,
       },
     ],
   },
 
+  // ─────────────────────────────────────────────
+  // Purchasing
+  // ─────────────────────────────────────────────
+
+  {
+    title: "Purchasing",
+
+    items: [
+      {
+        title: "Purchases",
+        href: "/dashboard/purchases",
+        icon: ClipboardList,
+        permission: Permission.PURCHASE_READ,
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Sales
+  // ─────────────────────────────────────────────
+
+  {
+    title: "Sales",
+
+    items: [
+      {
+        title: "Orders",
+        href: "/dashboard/orders",
+        icon: ShoppingCart,
+        permission: Permission.ORDER_READ,
+      },
+
+      {
+        title: "Carts",
+        href: "/dashboard/carts",
+        icon: ShoppingCart,
+        permission: Permission.CART_READ,
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // Marketing
+  // ─────────────────────────────────────────────
+
+  {
+    title: "Marketing",
+
+    items: [
+      {
+        title: "Banners",
+        href: "/dashboard/banners",
+        icon: LayoutDashboard,
+        permission: Permission.BANNER_READ,
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────
+  // System
+  // ─────────────────────────────────────────────
+
   {
     title: "System",
+
     items: [
       {
         title: "Activity Logs",
         href: "/dashboard/activity-logs",
         icon: ClipboardList,
-        roles: [RoleName.SUPER_ADMIN],
+        permission: Permission.ACTIVITY_LOG_READ,
       },
+
       {
         title: "Settings",
         href: "/dashboard/settings",
         icon: Settings,
-        roles: [RoleName.SUPER_ADMIN],
+        permission: Permission.SETTING_READ,
+      },
+
+      {
+        title: "Notifications",
+        href: "/dashboard/notifications",
+        icon: Bell,
+        permission: Permission.NOTIFICATION_READ,
       },
     ],
   },

@@ -9,13 +9,11 @@ import { DashboardHeader } from "./dashboard-header"
 import { DashboardStats } from "./dashboard-stats"
 
 import { DashboardSalesSummary } from "./dashboard-sales-summary"
-import { DashboardPurchaseSummary } from "./dashboard-purchase-summary"
 
 import { DashboardOrderStatus } from "./dashboard-order-status"
 import { DashboardStockOverview } from "./dashboard-stock-overview"
 
 import { DashboardCustomerOverview } from "./dashboard-customer-overview"
-import { DashboardEmployeeOverview } from "./dashboard-employee-overview"
 
 import { DashboardRecentOrders } from "./dashboard-recent-orders"
 import { DashboardLowStockProducts } from "./dashboard-low-stock-products"
@@ -38,10 +36,17 @@ export function DashboardContent() {
   return (
     <div className="grid min-w-0 gap-3">
       {/* Dashboard Header */}
-      <DashboardHeader query={query} onQueryChange={setQuery} />
+      <DashboardHeader
+        query={query}
+        onQueryChange={setQuery}
+      />
 
       {/* Key Business Metrics */}
-      <DashboardStats data={overview} isLoading={loading} isError={isError} />
+      <DashboardStats
+        data={overview}
+        isLoading={loading}
+        isError={isError}
+      />
 
       {/* Financial Overview */}
       <div className="grid min-w-0 gap-4">
@@ -51,7 +56,7 @@ export function DashboardContent() {
         />
       </div>
 
-      {/* Operational Overview */}
+      {/* Order & Customer Overview */}
       <div className="grid min-w-0 gap-3 lg:grid-cols-2">
         <DashboardOrderStatus
           orders={overview?.orders}
@@ -59,45 +64,30 @@ export function DashboardContent() {
           isLoading={loading}
         />
 
+        <DashboardCustomerOverview
+          customers={overview?.customers}
+          isLoading={loading}
+        />
+      </div>
+
+      {/* Stock Overview */}
+      <div className="grid min-w-0 gap-4">
         <DashboardStockOverview
           stock={overview?.stock}
           isLoading={loading}
         />
       </div>
 
-      {/* People Overview */}
-      <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-        <DashboardCustomerOverview
-          customers={overview?.customers}
-          isLoading={loading}
-        />
-
-        <DashboardEmployeeOverview
-          employees={overview?.employees}
-          isLoading={loading}
-        />
-      </div>
-
-      {/* Purchase Overview */}
-      <div className="grid min-w-0 gap-4">
-        <DashboardPurchaseSummary
-          purchases={overview?.purchases}
-          isLoading={loading}
-        />
-      </div>
-
       {/* Recent Orders */}
-      <div className="grid min-w-0 gap-4">
-        <DashboardRecentOrders
-          orders={overview?.recentOrders}
-          isLoading={loading}
-        />
-      </div>
+      <DashboardRecentOrders
+        orders={overview?.recentOrders}
+        isLoading={loading}
+      />
 
       {/* Recent Activities & Inventory Alerts */}
-      <div className="grid min-w-0 gap-4 lg:grid-cols-5 max-h-150">
+      <div className="grid gap-4 lg:grid-cols-5">
         {/* Recent Activities */}
-        <div className="h-full min-h-0 min-w-0 lg:col-span-3">
+        <div className="h-full min-w-0 lg:col-span-3">
           <DashboardRecentActivities
             activities={overview?.recentActivities}
             isLoading={loading}
@@ -105,7 +95,7 @@ export function DashboardContent() {
         </div>
 
         {/* Low Stock Products */}
-        <div className="h-full min-h-0 min-w-0 lg:col-span-2">
+        <div className="h-full min-w-0 lg:col-span-2">
           <DashboardLowStockProducts
             products={overview?.lowStockProducts}
             isLoading={loading}

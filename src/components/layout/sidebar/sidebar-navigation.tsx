@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 
 import { navigation } from "@/config/navigation.config"
 import { cn } from "@/lib/utils"
-import { useRole } from "@/hooks/use-role"
+import { usePermission } from "@/hooks/use-permission"
 
 import {
   SidebarContent,
@@ -19,17 +19,13 @@ import {
 
 export function SidebarNavigation() {
   const pathname = usePathname()
-  const { hasRole } = useRole()
+  const { has } = usePermission()
 
   return (
     <SidebarContent>
       {navigation.map((group) => {
         const visibleItems = group.items.filter((item) => {
-          if (!item.roles) {
-            return true
-          }
-
-          return item.roles.some((role) => hasRole(role))
+          return item.permission ? has(item.permission) : true
         })
 
         if (visibleItems.length === 0) {

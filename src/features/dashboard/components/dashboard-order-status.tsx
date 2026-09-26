@@ -1,7 +1,24 @@
 "use client"
 
-import { AppBarChart } from "@/components/charts"
-import type { ChartConfig } from "@/components/ui/chart"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart"
+
+import { Skeleton } from "@/components/ui/skeleton"
 
 import type { OrderSummary, DashboardQuery } from "../dashboard.types"
 import { PERIOD_OPTIONS } from "../dashboard.constants"
@@ -50,27 +67,27 @@ export function DashboardOrderStatus({
     {
       name: "delivered",
       value: currentOrders.deliveredOrders,
-      fill: "var(--color-delivered)",
+      fill: orderStatusConfig.delivered.color,
     },
     {
       name: "pending",
       value: currentOrders.pendingOrders,
-      fill: "var(--color-pending)",
+      fill: orderStatusConfig.pending.color,
     },
     {
       name: "processing",
       value: currentOrders.processingOrders,
-      fill: "var(--color-processing)",
+      fill: orderStatusConfig.processing.color,
     },
     {
       name: "shipped",
       value: currentOrders.shippedOrders,
-      fill: "var(--color-shipped)",
+      fill: orderStatusConfig.shipped.color,
     },
     {
       name: "cancelled",
       value: currentOrders.cancelledOrders,
-      fill: "var(--color-cancelled)",
+      fill: orderStatusConfig.cancelled.color,
     },
   ]
 
@@ -79,14 +96,63 @@ export function DashboardOrderStatus({
     "selected period"
 
   return (
-    <AppBarChart
-      title="Order Status"
-      description="Current order distribution"
-      data={orderStatusData}
-      config={orderStatusConfig}
-      isLoading={isLoading}
-      footerTitle={`Total Orders: ${currentOrders.totalOrders}`}
-      footerDescription={`Orders in ${periodLabel}`}
-    />
+    <Card className="min-w-0 overflow-hidden gap-3">
+      <CardHeader className="gap-0 px-3 sm:px-4">
+        <CardTitle className="text-sm sm:text-base">Order Status</CardTitle>
+
+        <CardDescription className="text-xs">
+          Current order distribution
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="flex flex-1 px-3 pb-3 sm:px-4 sm:pb-4">
+        {isLoading ? (
+          <Skeleton className="h-56 mx-4" />
+        ) : (
+          <ChartContainer config={orderStatusConfig} className="h-60 w-full">
+            <BarChart
+              accessibilityLayer
+              data={orderStatusData}
+              margin={{
+                top: 10,
+                right: 10,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid vertical={false} />
+
+              <XAxis
+                dataKey="name"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) =>
+                  orderStatusConfig[
+                    value as keyof typeof orderStatusConfig
+                  ]?.label?.toString() ?? value
+                }
+              />
+
+              <YAxis type="number" tickLine={false} axisLine={false} />
+
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+
+              <Bar dataKey="value" radius={6} />
+            </BarChart>
+          </ChartContainer>
+        )}
+      </CardContent>
+
+      <CardFooter className="flex-col gap-2 text-sm px-3 sm:px-4">
+        <div className="flex items-center gap-2 leading-none font-medium">
+          Total Orders: {currentOrders.totalOrders.toLocaleString("en-BD")}
+        </div>
+
+        <div className="leading-none text-muted-foreground">
+          Orders in {periodLabel}
+        </div>
+      </CardFooter>
+    </Card>
   )
 }

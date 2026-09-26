@@ -3,7 +3,16 @@ import type {
     SalesPurchaseChartData,
     TopCustomer,
     TopProduct,
+    PurchaseSummary,
 } from "./analytics.types"
+
+export const purchaseSummary: PurchaseSummary = {
+    totalPurchases: "850000",
+    todayPurchases: "25000",
+    totalPurchaseOrders: 325,
+    pendingPurchases: 12,
+    purchaseGrowth: 8.4,
+}
 
 export const salesPurchaseChartData: SalesPurchaseChartData[] = [
     {

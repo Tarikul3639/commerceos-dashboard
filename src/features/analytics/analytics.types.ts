@@ -4,6 +4,14 @@ export interface AnalyticsQuery {
   period?: "7d" | "30d" | "3m" | "6m" | "1y"
 }
 
+export interface PurchaseSummary {
+  totalPurchases: string
+  todayPurchases: string
+  totalPurchaseOrders: number
+  pendingPurchases: number
+  purchaseGrowth: number
+}
+
 export interface RevenueChartData {
   date: string
   revenue: string

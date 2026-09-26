@@ -1,4 +1,4 @@
-import { RoleName } from "@/features/roles/types/role.types";
+import { Role } from "@/config/roles.config";
 
 export enum UserStatus {
     ACTIVE = "ACTIVE",
@@ -26,7 +26,7 @@ export interface User {
     phone: string | null
     avatar: string | null
     publicId: string | null
-    role: RoleName
+    role: Role
     status: UserStatus
     isVerified: boolean
     lastLoginAt: string | null
@@ -54,7 +54,7 @@ export interface CreateUserPayload {
     phone?: string
     avatar?: string
     publicId?: string
-    roleId: string
+    role: Role
 }
 
 export interface UpdateUserPayload {
@@ -63,7 +63,7 @@ export interface UpdateUserPayload {
     phone?: string | null
     avatar?: string | null
     publicId?: string | null
-    roleId?: string | null
+    role?: Role | null
 }
 
 export interface UpdateUserStatusPayload {

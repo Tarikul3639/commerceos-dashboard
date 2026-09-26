@@ -16,8 +16,8 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 
-import { useGetRolesQuery } from "@/features/roles/api/role.api"
 import { getErrorMessage } from "@/lib/utils/error"
+import { Role } from "@/config/roles.config"
 
 import { useUpdateUserMutation } from "../api/user.api"
 import { userSchema, type UserFormValues } from "../schemas/user.schema"
@@ -37,7 +37,6 @@ export function EditUserDialog({
     onOpenChange,
 }: EditUserDialogProps) {
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation()
-    const { data: roles = [], isLoading: isRolesLoading } = useGetRolesQuery()
 
     const form = useForm<UserFormValues>({
         resolver: zodResolver(userSchema),
@@ -47,7 +46,7 @@ export function EditUserDialog({
             phone: user.phone ?? "",
             avatar: user.avatar ?? "",
             publicId: user.publicId ?? "",
-            roleId: "",
+            role: user.role ?? Role.EMPLOYEE,
         },
     })
 
@@ -63,23 +62,9 @@ export function EditUserDialog({
             phone: user.phone ?? "",
             avatar: user.avatar ?? "",
             publicId: user.publicId ?? "",
-            roleId: "",
+            role: user.role ?? Role.EMPLOYEE,
         })
     }, [user, open, form])
-
-    /**
-     * Role name change after dialog open
-     * roles load after dialog open
-     */
-    useEffect(() => {
-        if (!open || !roles.length) return
-
-        const currentRole = roles.find((role) => role.name === user.role)
-
-        if (currentRole) {
-            form.setValue("roleId", currentRole.id)
-        }
-    }, [open, roles, user.role, form])
 
     const onSubmit = async (values: UserFormValues) => {
         try {
@@ -91,7 +76,7 @@ export function EditUserDialog({
                     phone: values.phone || null,
                     avatar: values.avatar || null,
                     publicId: values.publicId || null,
-                    roleId: values.roleId,
+                    role: values.role,
                 },
             }).unwrap()
 
@@ -107,7 +92,7 @@ export function EditUserDialog({
         }
     }
 
-    const isSubmitting = isUpdating || isRolesLoading
+    const isSubmitting = isUpdating
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -123,8 +108,6 @@ export function EditUserDialog({
                 <form id="edit-user-form" onSubmit={form.handleSubmit(onSubmit)}>
                     <UserForm
                         form={form}
-                        roles={roles}
-                        isRolesLoading={isRolesLoading}
                         isSubmitting={isSubmitting}
                     />
                 </form>

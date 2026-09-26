@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { Role } from "@/config/roles.config"
+
 export const userSchema = z.object({
     name: z
         .string()
@@ -26,7 +28,7 @@ export const userSchema = z.object({
         .optional()
         .or(z.literal("")),
 
-    roleId: z.string().min(1, "Role is required"),
+    role: z.nativeEnum(Role),
 })
 
 export type UserFormValues = z.infer<typeof userSchema>

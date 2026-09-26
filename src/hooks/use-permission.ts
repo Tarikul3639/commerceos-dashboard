@@ -1,15 +1,66 @@
 "use client"
 
-import { PermissionName } from "@/config/permissions.config"
-import { can } from "@/lib/permissions/can"
+import { useCallback } from "react"
+
+import { Permission } from "@/config/permissions.config"
+import { Role } from "@/config/roles.config"
 import { useAppSelector } from "@/store/hooks"
 
-export function usePermission(permission: PermissionName): boolean {
+export function usePermission() {
   const user = useAppSelector((state) => state.auth.user)
 
-  if (!user) {
-    return false
-  }
+  const has = useCallback(
+    (permission: Permission): boolean => {
+      if (!user) {
+        return false
+      }
 
-  return can(user.role, user.permissions, permission)
+      if (user.role === Role.SUPER_ADMIN) {
+        return true
+      }
+
+      return user.permissions.includes(permission)
+    },
+    [user]
+  )
+
+  const hasAny = useCallback(
+    (permissions: Permission[]): boolean => {
+      if (!user) {
+        return false
+      }
+
+      if (user.role === Role.SUPER_ADMIN) {
+        return true
+      }
+
+      return permissions.some((permission) =>
+        user.permissions.includes(permission)
+      )
+    },
+    [user]
+  )
+
+  const hasAll = useCallback(
+    (permissions: Permission[]): boolean => {
+      if (!user) {
+        return false
+      }
+
+      if (user.role === Role.SUPER_ADMIN) {
+        return true
+      }
+
+      return permissions.every((permission) =>
+        user.permissions.includes(permission)
+      )
+    },
+    [user]
+  )
+
+  return {
+    has,
+    hasAny,
+    hasAll,
+  }
 }

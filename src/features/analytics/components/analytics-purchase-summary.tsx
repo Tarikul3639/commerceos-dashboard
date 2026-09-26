@@ -13,19 +13,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 
-import type { PurchaseSummary } from "../dashboard.types"
+import type { PurchaseSummary } from "../analytics.types"
 
-interface DashboardPurchaseSummaryProps {
+interface AnalyticsPurchaseSummaryProps {
   purchases?: PurchaseSummary
   isLoading?: boolean
 }
 
-export function DashboardPurchaseSummary({
+export function AnalyticsPurchaseSummary({
   purchases,
   isLoading = false,
-}: DashboardPurchaseSummaryProps) {
+}: AnalyticsPurchaseSummaryProps) {
   if (isLoading) {
-    return <DashboardPurchaseSummarySkeleton />
+    return <AnalyticsPurchaseSummarySkeleton />
   }
 
   const growth = purchases?.purchaseGrowth ?? 0
@@ -138,7 +138,7 @@ function PurchaseMetric({
   )
 }
 
-function DashboardPurchaseSummarySkeleton() {
+function AnalyticsPurchaseSummarySkeleton() {
   return (
     <Card className="min-w-0 overflow-hidden py-0">
       <CardHeader className="px-3 py-3 sm:px-4 sm:py-3.5">

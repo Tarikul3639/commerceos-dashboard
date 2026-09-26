@@ -30,7 +30,7 @@ export function DashboardRecentOrders({
   })
 
   return (
-    <div className="h-full max-h-[520px] min-h-0 min-w-0">
+    <div className="h-full max-h-150 min-h-80 min-w-0">
       <DataTable
         columns={columns}
         data={recentOrders}

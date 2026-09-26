@@ -12,14 +12,6 @@ export interface SalesSummary {
   salesGrowth: number
 }
 
-export interface PurchaseSummary {
-  totalPurchases: string
-  todayPurchases: string
-  totalPurchaseOrders: number
-  pendingPurchases: number
-  purchaseGrowth: number
-}
-
 export interface StockSummary {
   totalProducts: number
   totalVariants: number
@@ -44,12 +36,6 @@ export interface CustomerSummary {
   activeCustomers: number
   returningCustomers: number
   customerGrowth: number
-}
-
-export interface EmployeeSummary {
-  totalEmployees: number
-  activeEmployees: number
-  newEmployees: number
 }
 
 export interface LowStockProduct {
@@ -99,11 +85,9 @@ export interface RecentOrder {
 
 export interface DashboardOverview {
   sales: SalesSummary
-  purchases: PurchaseSummary
   stock: StockSummary
   orders: OrderSummary
   customers: CustomerSummary
-  employees: EmployeeSummary
   lowStockProducts: LowStockProduct[]
   recentActivities: RecentActivity[]
   recentOrders: RecentOrder[]

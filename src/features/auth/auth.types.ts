@@ -1,5 +1,5 @@
-import type { PermissionName } from "@/config/permissions.config"
-import type { RoleName } from "@/config/roles.config"
+import type { Permission } from "@/config/permissions.config"
+import type { Role } from "@/config/roles.config"
 
 export interface CurrentUserResponse {
   id: string
@@ -7,8 +7,8 @@ export interface CurrentUserResponse {
   email: string
   phone: string | null
   avatar: string | null
-  role: RoleName
-  permissions: PermissionName[]
+  role: Role
+  permissions: Permission[]
   isVerified: boolean
   lastLoginAt: string | null
 }

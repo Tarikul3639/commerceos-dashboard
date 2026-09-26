@@ -17,8 +17,8 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog"
 
-import { useGetRolesQuery } from "@/features/roles/api/role.api"
 import { getErrorMessage } from "@/lib/utils/error"
+import { Role } from "@/config/roles.config"
 
 import { useCreateUserMutation } from "../api/user.api"
 import { userSchema, type UserFormValues } from "../schemas/user.schema"
@@ -30,10 +30,6 @@ export function CreateUserDialog() {
 
     const [createUser, { isLoading: isCreating }] = useCreateUserMutation()
 
-    const { data: rolesResponse, isLoading: isRolesLoading } = useGetRolesQuery()
-
-    const roles = rolesResponse ?? []
-
     const form = useForm<UserFormValues>({
         resolver: zodResolver(userSchema),
 
@@ -43,7 +39,7 @@ export function CreateUserDialog() {
             phone: "",
             avatar: "",
             publicId: "",
-            roleId: "",
+            role: Role.EMPLOYEE,
         },
     })
 
@@ -76,7 +72,7 @@ export function CreateUserDialog() {
         }
     }
 
-    const isSubmitting = isCreating || isRolesLoading
+    const isSubmitting = isCreating
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -97,8 +93,6 @@ export function CreateUserDialog() {
                 <form id="create-user-form" onSubmit={form.handleSubmit(onSubmit)}>
                     <UserForm
                         form={form}
-                        roles={roles}
-                        isRolesLoading={isRolesLoading}
                         isSubmitting={isSubmitting}
                     />
                 </form>

@@ -24,8 +24,8 @@ import {
 } from "@/components/ui/chart"
 
 import { Skeleton } from "@/components/ui/skeleton"
-
 import { formatCurrency } from "@/lib/utils/format-currency"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 import type { RevenueChartData } from "../analytics.types"
 import { revenueChartData } from "../analytics.data"
@@ -45,6 +45,8 @@ export function AnalyticsRevenue({
   isLoading: boolean
 }) {
   const revenueData = revenueChartData
+
+  const isMobile = useIsMobile()
 
   const data = revenueData.map((item) => ({
     date: item.date,
@@ -101,13 +103,15 @@ export function AnalyticsRevenue({
                 }}
               />
 
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) =>
-                  formatCurrency(value, { compact: true })
-                }
-              />
+              {!isMobile && (
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) =>
+                    formatCurrency(value, { compact: true })
+                  }
+                />
+              )}
 
               <ChartTooltip
                 cursor={false}

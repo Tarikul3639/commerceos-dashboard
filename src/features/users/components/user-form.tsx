@@ -15,31 +15,27 @@ import {
     SelectItem,
     SelectGroup,
     SelectLabel,
-    SelectSeparator,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
 
-import type { Role } from "@/features/roles/types/role.types"
+import { Role } from "@/config/roles.config"
 import { type UserFormValues } from "../schemas/user.schema"
 
 import { UserAvatarUpload } from "./user-avatar-upload"
 
 interface UserFormProps {
     form: UseFormReturn<UserFormValues>
-    roles: Role[]
-    isRolesLoading?: boolean
     isSubmitting?: boolean
 }
 
 export function UserForm({
     form,
-    roles,
-    isRolesLoading = false,
     isSubmitting = false,
 }: UserFormProps) {
     const avatar = form.watch("avatar")
-    const roleId = form.watch("roleId")
+    const role = form.watch("role")
+    const roleOptions = Object.values(Role)
 
     return (
         <FieldGroup>
@@ -80,23 +76,21 @@ export function UserForm({
 
                 {/* Role */}
                 <Field className="w-full sm:w-38">
-                    <FieldLabel htmlFor="roleId">Role</FieldLabel>
+                    <FieldLabel htmlFor="role">Role</FieldLabel>
 
                     <Select
-                        value={roleId ?? ""}
+                        value={role ?? Role.EMPLOYEE}
                         onValueChange={(value) =>
-                            form.setValue("roleId", value, {
+                            form.setValue("role", value as Role, {
                                 shouldValidate: true,
                                 shouldDirty: true,
                             })
                         }
-                        disabled={isRolesLoading || isSubmitting}
+                        disabled={isSubmitting}
                     >
-                        <SelectTrigger id="roleId" className="capitalize">
+                        <SelectTrigger id="role" className="capitalize">
                             <SelectValue
-                                placeholder={
-                                    isRolesLoading ? "Loading roles..." : "Select a role"
-                                }
+                                placeholder="Select a role"
                             />
                         </SelectTrigger>
 
@@ -104,23 +98,21 @@ export function UserForm({
                             <SelectGroup>
                                 <SelectLabel>Roles</SelectLabel>
 
-                                <SelectSeparator />
-
-                                {roles.map((role) => (
+                                {roleOptions.map((roleOption) => (
                                     <SelectItem
-                                        key={role.id}
-                                        value={role.id}
+                                        key={roleOption}
+                                        value={roleOption}
                                         className="capitalize"
                                     >
-                                        {role.name.toLowerCase()}
+                                        {roleOption.toLowerCase()}
                                     </SelectItem>
                                 ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
 
-                    {form.formState.errors.roleId && (
-                        <FieldError>{form.formState.errors.roleId.message}</FieldError>
+                    {form.formState.errors.role && (
+                        <FieldError>{form.formState.errors.role.message}</FieldError>
                     )}
                 </Field>
             </div>

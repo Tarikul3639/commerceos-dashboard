@@ -5,6 +5,7 @@ import { useState } from "react"
 import {
   useGetRevenueChartQuery,
   useGetSalesPurchaseChartQuery,
+  useGetPurchaseSummaryQuery,
   useGetTopCustomersQuery,
   useGetTopProductsQuery,
 } from "../analytics.api"
@@ -15,6 +16,7 @@ import { AnalyticsRevenue } from "./analytics-revenue"
 import { AnalyticsSalesVsPurchaseChart } from "./analytics-sales-purchase-chart"
 import { AnalyticsTopCustomers } from "./analytics-top-customers"
 import { AnalyticsTopProducts } from "./analytics-top-products"
+import { AnalyticsPurchaseSummary } from "./analytics-purchase-summary"
 
 export function AnalyticsContent() {
   const [query, setQuery] = useState<AnalyticsQuery>({
@@ -24,6 +26,9 @@ export function AnalyticsContent() {
   const { data: revenue, isLoading: isRevenueLoading } =
     useGetRevenueChartQuery(query)
 
+  const { data: purchaseSummary, isLoading: isPurchaseLoading } =
+    useGetPurchaseSummaryQuery(query)
+
   const {
     data: salesPurchase,
     isLoading: isSalesPurchaseLoading,
@@ -31,7 +36,6 @@ export function AnalyticsContent() {
   } = useGetSalesPurchaseChartQuery(query)
 
   const { data: topProducts } = useGetTopProductsQuery(query)
-
   const { data: topCustomers } = useGetTopCustomersQuery(query)
 
   return (
@@ -45,11 +49,13 @@ export function AnalyticsContent() {
           isFetching={isSalesPurchaseFetching}
         />
 
-        <AnalyticsRevenue
-          revenue={revenue}
-          isLoading={isRevenueLoading}
-        />
+        <AnalyticsRevenue revenue={revenue} isLoading={isRevenueLoading} />
       </div>
+
+      <AnalyticsPurchaseSummary
+        purchases={purchaseSummary}
+        isLoading={isPurchaseLoading}
+      />
 
       <div className="grid min-w-0 gap-3 lg:grid-cols-2">
         <AnalyticsTopProducts products={topProducts} />

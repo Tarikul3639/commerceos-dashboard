@@ -2,6 +2,7 @@ import { baseApi } from "@/lib/api/base-api"
 
 import type {
   AnalyticsQuery,
+  PurchaseSummary,
   RevenueChartData,
   SalesPurchaseChartData,
   TopCustomer,
@@ -44,6 +45,14 @@ export const analyticsApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Analytics"],
     }),
+
+    getPurchaseSummary: builder.query<PurchaseSummary, AnalyticsQuery | void>({
+      query: (params) => ({
+        url: "/analytics/purchase-summary",
+        params: params ?? undefined,
+      }),
+      providesTags: ["Analytics"],
+    }),
   }),
 })
 
@@ -52,4 +61,5 @@ export const {
   useGetSalesPurchaseChartQuery,
   useGetTopProductsQuery,
   useGetTopCustomersQuery,
+  useGetPurchaseSummaryQuery,
 } = analyticsApi
